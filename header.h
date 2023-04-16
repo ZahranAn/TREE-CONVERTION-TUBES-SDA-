@@ -36,11 +36,14 @@ struct BTree{
 	Baddr Broot;
 };
 
+/* Konstruktor Node */
 NBaddr CreateNBnode(char info);
 Baddr CreateBnode(char info);
 
+/* Modul untuk konversi Non Binary Tree ke Binary Tree */
 void ConvertNBtree(NBaddr NBroot, Baddr Broot);
 
+/* Modul untuk alokasi sebuah node yang dimasukkan */
 void InsertNBnode(NBaddr NBroot);
 void InsertBnode(Baddr Broot);
 
@@ -62,7 +65,7 @@ void BPreOrder(Baddr Broot);
 void BInOrder(Baddr Broot);
 void ViewTraversalB(Baddr Broot);
 
-/* Delete Node */
+/* Delete Node Non Binary Tree */
 NBaddr DeleteNodeNB(NBaddr NBroot, char info);
 NBaddr DeleteRootNB(NBaddr NBroot, NBaddr info);
 NBaddr DeleteLeafNB(NBaddr NBroot, NBaddr info);
