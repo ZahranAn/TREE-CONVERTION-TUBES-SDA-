@@ -44,12 +44,13 @@ Baddr CreateBnode(char info);
 void ConvertNBtree(NBaddr NBroot, Baddr Broot);
 
 /* Modul untuk alokasi sebuah node yang dimasukkan */
-void InsertNBnode(NBaddr NBroot);
-void InsertBnode(Baddr Broot);
+void InsertBnode(Baddr Broot, NBaddr nbNode);
+void InsertNBnode(NBaddr NBroot, NBaddr parent, char info);
 
 /* Search dengan mengembalikan address Node tertentu */
-NBaddr SearchBnode(Baddr root, char info);
+Baddr SearchBnode(Baddr Broot, char info);
 NBaddr SearchBeforeNB (NBaddr NBroot, NBaddr info);
+NBaddr SearchNBnode (NBaddr NBroot, char info);
 
 /* Traversal Non Binary Tree */
 void NBLevelOrder(NBaddr NBroot);
