@@ -16,27 +16,58 @@ Kelas/Prodi : 1B/D4 Teknik Informatika
 
 typedef struct NBnode* NBaddr;
 typedef struct Bnode* Baddr;
-typedef char* String;
 
-/* Struct Non - Binary Tree */
+/* Struct Non Binary Tree */
 typedef struct NBnode{
-	String info;
+	char info;
 	NBaddr fs, nb, parent;
 };
 struct NbTree{
-	NBaddr root;
+	NBaddr NBroot;
 };
 
 /* Struct Binary Tree */
 typedef struct Bnode{
-	String info;
+	char info;
     int height;
 	Baddr left, right;
 };
 struct BTree{
-	Baddr root;
+	Baddr Broot;
 };
 
+NBaddr CreateNBnode(char info);
+Baddr CreateBnode(char info);
 
+void ConvertNBtree(NBaddr NBroot, Baddr Broot);
+
+void InsertNBnode(NBaddr NBroot);
+void InsertBnode(Baddr Broot);
+
+/* Search dengan mengembalikan address Node tertentu */
+NBaddr SearchBnode(Baddr root, char info);
+NBaddr SearchBeforeNB (NBaddr NBroot, NBaddr info);
+
+/* Traversal Non Binary Tree */
+void NBLevelOrder(NBaddr NBroot);
+void NBPostOrder(NBaddr NBroot);
+void NBPreOrder(NBaddr NBroot);
+void NBInOrder(NBaddr NBroot);
+void ViewTraversalNB(NBaddr NBroot);
+
+/* Traversal Binary Tree*/
+void BLevelOrder(Baddr Broot);
+void BPostOrder(Baddr Broot);
+void BPreOrder(Baddr Broot);
+void BInOrder(Baddr Broot);
+void ViewTraversalB(Baddr Broot);
+
+/* Delete Node */
+NBaddr DeleteNodeNB(NBaddr NBroot, char info);
+NBaddr DeleteRootNB(NBaddr NBroot, NBaddr info);
+NBaddr DeleteLeafNB(NBaddr NBroot, NBaddr info);
+NBaddr DeleteStemNB(NBaddr NBroot, NBaddr info);
+bool IsLeafNB(NBaddr NBroot);
+NBaddr UpgradePositionNB(NBaddr NBroot, NBaddr info);
 
 #endif
