@@ -38,7 +38,7 @@ NBaddr CreateNBnode(infotype info);
 Baddr CreateBnode(infotype info);
 
 /* Modul untuk konversi Non Binary Tree ke Binary Tree */
-void ConvertNBtree(NBTree NBtree, BTree Broot);
+void ConvertNBtree(NBTree NBtree, BTree* Broot, BTree* AVLroot);
 
 /* Modul untuk alokasi sebuah node yang dimasukkan */
 void InsertBnode(BTree Broot, NBaddr nbNode);

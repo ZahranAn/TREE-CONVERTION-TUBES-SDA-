@@ -36,21 +36,24 @@ Baddr CreateBnode(infotype info){
 }
 
 /* Modul untuk konversi Non Binary Tree ke Binary Tree */
-void ConvertNBtree(NBTree NBroot, BTree Broot){
+void ConvertNBtree(NBTree NBroot, BTree* Broot, BTree* AVLroot){
     NBaddr Pcur;
     bool arah = false;
     if (NBroot != NULL){
         Pcur = NBroot;
-        InsertBnode(Broot,Pcur);
+        InsertBnode((*Broot),Pcur);
+        InsertAVLnode((*AVLroot),Pcur->info);
         do{
             if ((Pcur->fs != NULL) && (arah == false)){
                 Pcur = Pcur->fs;
-                InsertBnode(Broot, Pcur);
+                InsertBnode((*Broot), Pcur);
+                InsertAVLnode((*AVLroot),Pcur->info);
             }else{
                 if (Pcur->nb != NULL){
                 	arah = false;
                     Pcur = Pcur->nb;
-                    InsertBnode(Broot,Pcur);
+                    InsertBnode((*Broot),Pcur);
+                    InsertAVLnode((*AVLroot),Pcur->info);
                 }else{
                     Pcur = Pcur->pr;
                     arah = true;
