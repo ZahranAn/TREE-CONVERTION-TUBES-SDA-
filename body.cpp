@@ -50,12 +50,12 @@ void ConvertNBtree(NBTree NBroot, BTree Broot){
                 Pcur = Pcur->fs;
                 InsertBnode(Broot, Pcur);
             }else{
-                arah = false;
                 if (Pcur->nb != NULL){
+                	arah = false;
                     Pcur = Pcur->nb;
                     InsertBnode(Broot,Pcur);
                 }else{
-                    Pcur = Pcur->parent;
+                    Pcur = Pcur->pr;
                     arah = true;
                 }
             }
@@ -162,9 +162,9 @@ void NBInOrder(NBTree NBroot){
 		if (NBroot->fs==NULL){
             printf(" %c", NBroot->info);
         } 
-		if (NBroot->parent != NULL)
-			if (NBroot->parent->fs == NBroot)
-				printf(" %c", NBroot->parent->info);
+		if (NBroot->pr != NULL)
+			if (NBroot->pr->fs == NBroot)
+				printf(" %c", NBroot->pr->info);
 		NBInOrder(NBroot->nb);
 	}
 }

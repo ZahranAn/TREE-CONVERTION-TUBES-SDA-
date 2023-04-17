@@ -20,7 +20,7 @@ typedef struct Bnode* Baddr;
 /* Struct Non Binary Tree */
 typedef struct NBnode{
 	char info;
-	NBaddr fs, nb, parent;
+	NBaddr fs, nb, pr;
 };
 typedef struct NBaddr NBTree;
 
