@@ -22,9 +22,7 @@ typedef struct NBnode{
 	char info;
 	NBaddr fs, nb, parent;
 };
-struct NbTree{
-	NBaddr NBroot;
-};
+typedef struct NBaddr NBTree;
 
 /* Struct Binary Tree */
 typedef struct Bnode{
@@ -32,46 +30,44 @@ typedef struct Bnode{
     int height;
 	Baddr left, right;
 };
-struct BTree{
-	Baddr Broot;
-};
+typedef struct Baddr BTree;
 
 /* Konstruktor Node */
 NBaddr CreateNBnode(char info);
 Baddr CreateBnode(char info);
 
 /* Modul untuk konversi Non Binary Tree ke Binary Tree */
-void ConvertNBtree(NBaddr NBroot, Baddr Broot);
+void ConvertNBtree(NBTree NBtree, NTree Broot);
 
 /* Modul untuk alokasi sebuah node yang dimasukkan */
-void InsertBnode(Baddr Broot, NBaddr nbNode);
-void InsertNBnode(NBaddr NBroot, NBaddr parent, char info);
+void InsertBnode(BTree Broot, NBaddr nbNode);
+void InsertNBnode(NBTree NBroot, NBaddr parent, char info);
 
 /* Search dengan mengembalikan address Node tertentu */
-Baddr SearchBnode(Baddr Broot, char info);
-NBaddr SearchBeforeNB (NBaddr NBroot, NBaddr info);
-NBaddr SearchNBnode (NBaddr NBroot, char info);
+Baddr SearchBnode(BTree Broot, char info);
+NBaddr SearchBeforeNB (NBTree NBroot, NBaddr info);
+NBaddr SearchNBnode (NBTree NBroot, char info);
 
 /* Traversal Non Binary Tree */
-void NBLevelOrder(NBaddr NBroot);
-void NBPostOrder(NBaddr NBroot);
-void NBPreOrder(NBaddr NBroot);
-void NBInOrder(NBaddr NBroot);
-void ViewTraversalNB(NBaddr NBroot);
+void NBLevelOrder(NBTree NBroot);
+void NBPostOrder(NBTree NBroot);
+void NBPreOrder(NBTree NBroot);
+void NBInOrder(NBTree NBroot);
+void ViewTraversalNB(NBTree NBroot);
 
 /* Traversal Binary Tree*/
-void BLevelOrder(Baddr Broot);
-void BPostOrder(Baddr Broot);
-void BPreOrder(Baddr Broot);
-void BInOrder(Baddr Broot);
-void ViewTraversalB(Baddr Broot);
+void BLevelOrder(BTree Broot);
+void BPostOrder(BTree Broot);
+void BPreOrder(BTree Broot);
+void BInOrder(BTree Broot);
+void ViewTraversalB(BTree Broot);
 
 /* Delete Node Non Binary Tree */
-NBaddr DeleteNodeNB(NBaddr NBroot, char info);
-NBaddr DeleteRootNB(NBaddr NBroot, NBaddr info);
-NBaddr DeleteLeafNB(NBaddr NBroot, NBaddr info);
-NBaddr DeleteStemNB(NBaddr NBroot, NBaddr info);
-bool IsLeafNB(NBaddr NBroot);
-NBaddr UpgradePositionNB(NBaddr NBroot, NBaddr info);
+NBaddr DeleteNodeNB(NBTree NBroot, char info);
+NBaddr DeleteRootNB(NBTree NBroot, NBaddr info);
+NBaddr DeleteLeafNB(NBTree NBroot, NBaddr info);
+NBaddr DeleteStemNB(NBTree NBroot, NBaddr info);
+bool IsLeafNB(NBTree NBroot);
+NBaddr UpgradePositionNB(NBTree NBroot, NBaddr info);
 
 #endif
