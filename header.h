@@ -12,41 +12,50 @@ Kelas/Prodi : 1B/D4 Teknik Informatika
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "boolean.h"
+
+typedef char infotype;
 
 typedef struct NBnode* NBaddr;
 typedef struct Bnode* Baddr;
 
 /* Struct Non Binary Tree */
-typedef struct NBnode{
-	char info;
+struct NBnode{
+	infotype info;
 	NBaddr fs, nb, pr;
 };
-typedef struct NBaddr NBTree;
+typedef NBaddr NBTree;
 
 /* Struct Binary Tree */
-typedef struct Bnode{
-	char info;
+struct Bnode{
+	infotype info;
     int height;
 	Baddr left, right;
 };
-typedef struct Baddr BTree;
+typedef Baddr BTree;
 
 /* Konstruktor Node */
-NBaddr CreateNBnode(char info);
-Baddr CreateBnode(char info);
+NBaddr CreateNBnode(infotype info);
+Baddr CreateBnode(infotype info);
 
 /* Modul untuk konversi Non Binary Tree ke Binary Tree */
-void ConvertNBtree(NBTree NBtree, NTree Broot);
+void ConvertNBtree(NBTree NBtree, BTree Broot);
 
 /* Modul untuk alokasi sebuah node yang dimasukkan */
 void InsertBnode(BTree Broot, NBaddr nbNode);
-void InsertNBnode(NBTree NBroot, NBaddr parent, char info);
+void InsertNBnode(NBTree NBroot, NBaddr parent, infotype info);
+void InsertAVLnode(BTree Broot, infotype info);
+
+/* Modul Pembantu Untuk AVL Tree */
+int Max(int a, int b);
+int NodeHeight(BTree root);
+Baddr RightRotation(Baddr y);
+Baddr LeftRotation(Baddr x);
+int GetDifference(Baddr N);
 
 /* Search dengan mengembalikan address Node tertentu */
-Baddr SearchBnode(BTree Broot, char info);
+Baddr SearchBnode(BTree Broot, infotype info);
 NBaddr SearchBeforeNB (NBTree NBroot, NBaddr info);
-NBaddr SearchNBnode (NBTree NBroot, char info);
+NBaddr SearchNBnode (NBTree NBroot, infotype info);
 
 /* Traversal Non Binary Tree */
 void NBLevelOrder(NBTree NBroot);
@@ -63,7 +72,7 @@ void BInOrder(BTree Broot);
 void ViewTraversalB(BTree Broot);
 
 /* Delete Node Non Binary Tree */
-NBaddr DeleteNodeNB(NBTree NBroot, char info);
+NBaddr DeleteNodeNB(NBTree NBroot, infotype info);
 NBaddr DeleteRootNB(NBTree NBroot, NBaddr info);
 NBaddr DeleteLeafNB(NBTree NBroot, NBaddr info);
 NBaddr DeleteStemNB(NBTree NBroot, NBaddr info);

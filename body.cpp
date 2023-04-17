@@ -7,31 +7,30 @@ Anggota     : Bhisma Chandra Yudha      221524037
 Kelas/Prodi : 1B/D4 Teknik Informatika
 */
 
-#include "boolean.h"
 #include "header.h"
 #include <malloc.h>
 
 /* Konstruktor Node */
-NBaddr CreateNBnode(char info){
+NBaddr CreateNBnode(infotype info){
     NBaddr newNode;
 	newNode = (NBaddr)malloc(sizeof(NBnode));
 	if (newNode != NULL){
         newNode->info = info;
 		newNode->fs = NULL;
 		newNode->nb = NULL;
-		newNode->parent = NULL;
+		newNode->pr = NULL;
 	}
 	return newNode;
 }
 
-Baddr CreateBnode(char info){
+Baddr CreateBnode(infotype info){
     Baddr newNode;
 	newNode = (Baddr)malloc(sizeof(Bnode));
 	if (newNode != NULL){
         newNode->info = info;
 		newNode->left = NULL;
 		newNode->right = NULL;
-		newNode->height = 0;
+		newNode->height = 1;
 	}
 	return newNode;
 }
@@ -39,9 +38,7 @@ Baddr CreateBnode(char info){
 /* Modul untuk konversi Non Binary Tree ke Binary Tree */
 void ConvertNBtree(NBTree NBroot, BTree Broot){
     NBaddr Pcur;
-    boolean arah;
-
-    arah = false;
+    bool arah = false;
     if (NBroot != NULL){
         Pcur = NBroot;
         InsertBnode(Broot,Pcur);
@@ -67,10 +64,10 @@ void ConvertNBtree(NBTree NBroot, BTree Broot){
 void InsertBnode(BTree Broot, NBaddr nbNode){
 	Baddr parent;
     Baddr newNode = CreateBnode (nbNode->info);
-    if (nbNode->parent ==  NULL){
+    if (nbNode->pr ==  NULL){
         Broot = newNode;
     }else{
-        parent = SearchBnode(Broot, nbNode->parent->info);
+        parent = SearchBnode(Broot, nbNode->pr->info);
         if (parent->left ==  NULL){
             parent->left = newNode;
         }else{
@@ -83,9 +80,9 @@ void InsertBnode(BTree Broot, NBaddr nbNode){
     }
 }
 
-void InsertNBnode(NBTree NBroot, NBaddr parent, char info){
+void InsertNBnode(NBTree NBroot, NBaddr parent, infotype info){
     NBaddr newNode = CreateNBnode(info);
-    newNode->parent = parent;
+    newNode->pr = parent;
     if (parent == NULL){
         NBroot = newNode;
     }else if (parent->fs == NULL){
@@ -99,7 +96,87 @@ void InsertNBnode(NBTree NBroot, NBaddr parent, char info){
     }
 }
 
-Baddr SearchBnode(BTree Broot, char info){
+void InsertAVLnode(BTree* Broot, infotype info){
+	if (*Broot == NULL){
+	*Broot = CreateBnode(info);
+	return;
+	}
+	if (info < (*Broot)->info){
+		InsertAVLnode(&((*Broot)->left), info);
+	}else if (info > (*Broot)->info){
+		InsertAVLnode(&((*Broot)->right), info);
+	}else {	return;	}
+
+	(*Broot)->height = 1 + Max(NodeHeight((*Broot)->left),NodeHeight((*Broot)->right));
+	
+	int balance = GetDifference(*Broot);
+	
+	// Left Left Case
+	if (balance > 1 && info < (*Broot)->left->info){
+		*Broot = RightRotation(*Broot);
+		return;
+	}
+	// Right Right Case
+	if (balance < -1 && info > (*Broot)->right->info){
+		*Broot = LeftRotation(*Broot);
+		return;
+	}
+	// Left Right Case
+	if (balance > 1 && info > (*Broot)->left->info){
+		(*Broot)->left = LeftRotation((*Broot)->left);
+		*Broot = RightRotation(*Broot);
+		return;
+	}
+	// Right Left Case
+	if (balance < -1 && info < (*Broot)->right->info){
+		(*Broot)->right = RightRotation((*Broot)->right);
+		*Broot = LeftRotation(*Broot);
+		return;
+	}
+}
+
+/* Modul Pembantu Untuk AVL Tree */
+int Max(int a, int b){
+	return (a > b)? a : b;
+}
+
+int NodeHeight(Baddr root){
+	if (root == NULL)
+		return 0;
+	return root->height;
+}
+
+Baddr RightRotation(Baddr y){
+	Baddr x = y->left;
+	Baddr T2 = x->right;
+
+	x->right = y;
+	y->left = T2;
+
+	y->height = Max(NodeHeight(y->left), NodeHeight(y->right))+1;
+	x->height = Max(NodeHeight(x->left), NodeHeight(x->right))+1;
+	return x;
+}
+
+Baddr LeftRotation(Baddr x){
+	Baddr y = x->right;
+	Baddr T2 = y->left;
+
+	y->left = x;
+	x->right = T2;
+
+	x->height = Max(NodeHeight(x->left), NodeHeight(x->right))+1;
+	y->height = Max(NodeHeight(y->left), NodeHeight(y->right))+1;
+	return y;
+}
+
+int GetDifference(Baddr N){
+	if (N == NULL)
+		return 0;
+	return NodeHeight(N->left) - NodeHeight(N->right);
+}
+
+Baddr SearchBnode(BTree Broot, infotype info){
     Baddr node;
     if (Broot == NULL){
         return NULL;
@@ -115,7 +192,7 @@ Baddr SearchBnode(BTree Broot, char info){
     }
 }
 
-NBaddr SearchNBnode (NBTree NBroot, char info){
+NBaddr SearchNBnode (NBTree NBroot, infotype info){
     NBaddr node;
     if (NBroot == NULL){
         return NULL;
@@ -228,7 +305,7 @@ void ViewTraversalB(BTree Broot){
     BInOrder(Broot);   printf("\n");
 }
 
-NBaddr DeleteNodeNB(NBTree NBroot, char info){
+NBaddr DeleteNodeNB(NBTree NBroot, infotype info){
 
 }
 
@@ -251,4 +328,3 @@ bool IsLeafNB(NBTree NBroot){
 NBaddr UpgradePositionNB(NBTree NBroot, NBaddr info){
     
 }
-

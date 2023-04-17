@@ -8,8 +8,6 @@ Kelas/Prodi : 1B/D4 Teknik Informatika
 */
 
 #include "header.h"
-#include <stdio.h>
-#include "body.cpp"
 
 int main(){
 	
