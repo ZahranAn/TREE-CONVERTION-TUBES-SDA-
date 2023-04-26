@@ -41,9 +41,9 @@ Baddr CreateBnode(infotype info);
 void ConvertNBtree(NBTree NBtree, BTree* Broot, BTree* AVLroot);
 
 /* Modul untuk alokasi sebuah node yang dimasukkan */
-void InsertBnode(BTree Broot, NBaddr nbNode);
-void InsertNBnode(NBTree NBroot, NBaddr parent, infotype info);
-void InsertAVLnode(BTree Broot, infotype info);
+void InsertBnode(BTree* Broot, NBaddr nbNode);
+void InsertNBnode(NBTree* NBroot, NBaddr parent, infotype info);
+void InsertAVLnode(BTree* Broot, infotype info);
 
 /* Modul Pembantu Untuk AVL Tree */
 int Max(int a, int b);
@@ -64,7 +64,7 @@ void NBPreOrder(NBTree NBroot);
 void NBInOrder(NBTree NBroot);
 void ViewTraversalNB(NBTree NBroot);
 
-/* Traversal Binary Tree*/
+/* Traversal Binary Tree */
 void BLevelOrder(BTree Broot);
 void BPostOrder(BTree Broot);
 void BPreOrder(BTree Broot);
@@ -79,4 +79,5 @@ NBaddr DeleteStemNB(NBTree NBroot, NBaddr info);
 bool IsLeafNB(NBTree NBroot);
 NBaddr UpgradePositionNB(NBTree NBroot, NBaddr info);
 
+/* Aksi User */
 #endif

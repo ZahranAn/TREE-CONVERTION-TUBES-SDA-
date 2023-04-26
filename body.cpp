@@ -41,19 +41,19 @@ void ConvertNBtree(NBTree NBroot, BTree* Broot, BTree* AVLroot){
     bool arah = false;
     if (NBroot != NULL){
         Pcur = NBroot;
-        InsertBnode((*Broot),Pcur);
-        InsertAVLnode((*AVLroot),Pcur->info);
+        InsertBnode(&(*Broot),Pcur);
+        InsertAVLnode(&(*AVLroot),Pcur->info);
         do{
             if ((Pcur->fs != NULL) && (arah == false)){
                 Pcur = Pcur->fs;
-                InsertBnode((*Broot), Pcur);
-                InsertAVLnode((*AVLroot),Pcur->info);
+                InsertBnode(&(*Broot), Pcur);
+                InsertAVLnode(&(*AVLroot),Pcur->info);
             }else{
                 if (Pcur->nb != NULL){
                 	arah = false;
                     Pcur = Pcur->nb;
-                    InsertBnode((*Broot),Pcur);
-                    InsertAVLnode((*AVLroot),Pcur->info);
+                    InsertBnode(&(*Broot),Pcur);
+                    InsertAVLnode(&(*AVLroot),Pcur->info);
                 }else{
                     Pcur = Pcur->pr;
                     arah = true;
@@ -64,13 +64,13 @@ void ConvertNBtree(NBTree NBroot, BTree* Broot, BTree* AVLroot){
 }
 
 /* Modul untuk alokasi sebuah node yang dimasukkan */
-void InsertBnode(BTree Broot, NBaddr nbNode){
+void InsertBnode(BTree* Broot, NBaddr nbNode){
 	Baddr parent;
     Baddr newNode = CreateBnode (nbNode->info);
     if (nbNode->pr ==  NULL){
-        Broot = newNode;
+        (*Broot) = newNode;
     }else{
-        parent = SearchBnode(Broot, nbNode->pr->info);
+        parent = SearchBnode((*Broot), nbNode->pr->info);
         if (parent->left ==  NULL){
             parent->left = newNode;
         }else{
@@ -83,11 +83,11 @@ void InsertBnode(BTree Broot, NBaddr nbNode){
     }
 }
 
-void InsertNBnode(NBTree NBroot, NBaddr parent, infotype info){
+void InsertNBnode(NBTree* NBroot, NBaddr parent, infotype info){
     NBaddr newNode = CreateNBnode(info);
     newNode->pr = parent;
     if (parent == NULL){
-        NBroot = newNode;
+        (*NBroot) = newNode;
     }else if (parent->fs == NULL){
         parent->fs = newNode;
     }else{
@@ -296,10 +296,10 @@ void BInOrder(BTree Broot){
 
 void ViewTraversalB(BTree Broot){
     if(Broot == NULL){
-        printf("\n\tTree masih kosong!");
+        printf("\n\tTree masih kosong!\n");
     }
-    printf("\n\tLEVELORDER : ");
-    BLevelOrder(Broot); printf("\n");
+//    printf("\tLEVELORDER : ");
+//    BLevelOrder(Broot); printf("\n");
     printf("\tPOSTORDER : ");
     BPostOrder(Broot); printf("\n");
     printf("\tPREORDER  : ");
