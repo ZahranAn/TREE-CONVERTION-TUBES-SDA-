@@ -64,13 +64,13 @@ void ConvertNBtree(NBTree NBroot, BTree* Broot, BTree* AVLroot){
 }
 
 /* Modul untuk alokasi sebuah node yang dimasukkan */
-void InsertBnode(BTree* Broot, NBaddr nbNode){
+void InsertBnode(BTree* Broot, NBaddr NBnode){
 	Baddr parent;
-    Baddr newNode = CreateBnode (nbNode->info);
-    if (nbNode->pr ==  NULL){
+    Baddr newNode = CreateBnode (NBnode->info);
+    if (NBnode->pr ==  NULL){
         (*Broot) = newNode;
     }else{
-        parent = SearchBnode((*Broot), nbNode->pr->info);
+        parent = SearchBnode((*Broot), NBnode->pr->info);
         if (parent->left ==  NULL){
             parent->left = newNode;
         }else{
@@ -100,9 +100,10 @@ void InsertNBnode(NBTree* NBroot, NBaddr parent, infotype info){
 }
 
 void InsertAVLnode(BTree* Broot, infotype info){
+	int balance = 0;
 	if (*Broot == NULL){
-	*Broot = CreateBnode(info);
-	return;
+		*Broot = CreateBnode(info);
+		return;
 	}
 	if (info < (*Broot)->info){
 		InsertAVLnode(&((*Broot)->left), info);
@@ -112,7 +113,7 @@ void InsertAVLnode(BTree* Broot, infotype info){
 
 	(*Broot)->height = 1 + Max(NodeHeight((*Broot)->left),NodeHeight((*Broot)->right));
 	
-	int balance = GetDifference(*Broot);
+	balance = GetDifference(*Broot);
 	
 	// Left Left Case
 	if (balance > 1 && info < (*Broot)->left->info){
@@ -143,22 +144,22 @@ int Max(int a, int b){
 	return (a > b)? a : b;
 }
 
-int NodeHeight(Baddr root){
-	if (root == NULL)
+int NodeHeight(Baddr node){
+	if (node == NULL)
 		return 0;
-	return root->height;
+	return node->height;
 }
 
-Baddr RightRotation(Baddr y){
-	Baddr x = y->left;
-	Baddr T2 = x->right;
+Baddr RightRotation(Baddr pivot){
+	Baddr newRoot = pivot->left;
+	Baddr rightSubtree = newRoot->right;
 
-	x->right = y;
-	y->left = T2;
+	newRoot->right = pivot;
+	pivot->left = rightSubtree;
 
-	y->height = Max(NodeHeight(y->left), NodeHeight(y->right))+1;
-	x->height = Max(NodeHeight(x->left), NodeHeight(x->right))+1;
-	return x;
+	pivot->height = Max(NodeHeight(pivot->left), NodeHeight(pivot->right))+1;
+	newRoot->height = Max(NodeHeight(newRoot->left), NodeHeight(newRoot->right))+1;
+	return newRoot;
 }
 
 Baddr LeftRotation(Baddr x){
@@ -173,10 +174,10 @@ Baddr LeftRotation(Baddr x){
 	return y;
 }
 
-int GetDifference(Baddr N){
-	if (N == NULL)
+int GetDifference(Baddr node){
+	if (node == NULL)
 		return 0;
-	return NodeHeight(N->left) - NodeHeight(N->right);
+	return NodeHeight(node->left) - NodeHeight(node->right);
 }
 
 Baddr SearchBnode(BTree Broot, infotype info){
@@ -211,9 +212,23 @@ NBaddr SearchNBnode (NBTree NBroot, infotype info){
     }
 }
 
-NBaddr SearchBeforeNB (NBTree NBroot, NBaddr info){
-    
+NBaddr SearchBeforeNB(NBTree NBroot, NBaddr target) {
+    if (NBroot == NULL) {
+        return NULL;
+    }
+
+    if (NBroot->nb == target) {
+        return NBroot;
+    }
+
+    NBaddr result = SearchBeforeNB(NBroot->fs, target);
+    if (result == NULL) {
+        result = SearchBeforeNB(NBroot->nb, target);
+    }
+
+    return result;
 }
+
 
 /* Traversal Non Binary Tree */
 void NBLevelOrder(NBTree NBroot){
@@ -308,26 +323,124 @@ void ViewTraversalB(BTree Broot){
     BInOrder(Broot);   printf("\n");
 }
 
-NBaddr DeleteNodeNB(NBTree NBroot, infotype info){
-
+void DeleteNodeNB(NBTree* NBroot, infotype info) {
+    NBaddr toDelete = SearchNBnode(*NBroot, info);
+    if (toDelete == NULL) {
+        printf("\nNode not Found!\n");
+        return;
+    }
+    if (toDelete->pr == NULL) {
+        DeleteRootNB(NBroot, toDelete);
+        printf("\nRoot Node Deleted!\n");
+    } else if (IsLeafNB(toDelete)) {
+        DeleteLeafNB(NBroot, toDelete);
+        printf("\nLeaf Node Deleted!\n");
+    } else {
+        DeleteStemNB(*NBroot, &toDelete);
+        printf("\nStem Node Deleted!\n");
+    }
 }
 
-NBaddr DeleteRootNB(NBTree NBroot, NBaddr info){
 
+void DeleteRootNB(NBTree* NBroot, NBaddr toDelete){
+    NBaddr son = NULL;
+	
+    if(IsLeafNB(toDelete)){
+        *NBroot = NULL;
+    } else {
+        son = toDelete->fs;
+        son->pr = NULL;
+        UpgradePositionNB(&son);
+        *NBroot = son;
+    }
+    free(toDelete);
 }
 
-NBaddr DeleteLeafNB(NBTree NBroot, NBaddr info){
 
+void DeleteLeafNB(NBTree* NBroot, NBaddr toDelete){
+    NBaddr parent = SearchBeforeNB(*NBroot, toDelete);
+    if(parent == NULL){
+        return;
+    } else if(parent->fs == toDelete){
+        if(toDelete->nb != NULL){
+            parent->fs = toDelete->nb;
+        } else {
+            parent->fs = NULL;
+        }
+    } else {
+        parent = parent->nb;
+        while(parent->nb != toDelete){
+            parent = parent->nb;
+        }
+        if(toDelete->nb != NULL){
+            parent->nb = toDelete->nb;
+        } else {
+            parent->nb = NULL;
+        }
+    }
+    free(toDelete);
 }
 
-NBaddr DeleteStemNB(NBTree NBroot, NBaddr info){
 
-}
-
-bool IsLeafNB(NBTree NBroot){
-
-}
-
-NBaddr UpgradePositionNB(NBTree NBroot, NBaddr info){
+void DeleteStemNB(NBaddr NBroot, NBaddr* node) {
+    NBaddr son = (*node)->fs;
+    NBaddr nextbrother = NULL;
+    NBaddr prevBrother = NULL;
     
+    son->pr = (*node)->pr;
+    if (SearchBeforeNB(NBroot, *node) == 0) {
+        (*node)->pr->fs = son;
+        if ((*node)->nb == NULL) {
+            UpgradePositionNB(&son);
+        } else {
+            nextbrother = (*node)->nb;
+            UpgradePositionNB(&son);
+            son->nb = nextbrother;
+        }
+    } else {
+        nextbrother = (*node)->nb;
+        UpgradePositionNB(&son);
+        son->nb = nextbrother;
+        NBaddr prevBrother = SearchBeforeNB(NBroot, *node);
+        prevBrother->nb = son;
+    }
+    *node = NULL;
+    free(*node);
 }
+
+
+
+/* Modul Pembantu Untuk Delete Non Binary Tree */
+bool IsLeafNB(NBTree NBroot){
+    if(NBroot->fs == NULL){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+void UpgradePositionNB(NBaddr* node) {
+    if ((*node)->fs && (*node)->nb) {
+        NBaddr lastChild = (*node)->fs;
+        while (lastChild->nb) {
+            lastChild = lastChild->nb;
+        }
+        NBaddr sibling = (*node)->nb;
+        lastChild->nb = sibling;
+        (*node)->nb = NULL;
+        while (sibling) {
+            sibling->pr = *node;
+            sibling = sibling->nb;
+        }
+    } else if ((*node)->fs == NULL) {
+        NBaddr sibling = (*node)->nb;
+        (*node)->nb = NULL;
+        (*node)->fs = sibling;
+        while (sibling) {
+            sibling->pr = *node;
+            sibling = sibling->nb;
+        }
+    }
+}
+
+

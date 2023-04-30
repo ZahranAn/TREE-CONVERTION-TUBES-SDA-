@@ -39,5 +39,17 @@ int main(){
 	BPostOrder(b);
 	printf("\nPost Order AVL Tree: ");
 	BPostOrder(avl);
+	ConvertNBtree(nb,&b,&avl);
+	
+	/* DELETE NODE */
+	DeleteNodeNB(&nb, 'a');
+	
+	/* CETAK TREE */
+	printf("Post Order Non-Binary Tree: ");
+	NBPostOrder(nb);
+	printf("\nPost Order Binary Tree: ");
+	BPostOrder(b);
+	printf("\nPost Order AVL Tree: ");
+	BPostOrder(avl);
 return 0;
 }
