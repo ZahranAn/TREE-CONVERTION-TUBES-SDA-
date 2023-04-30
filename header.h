@@ -33,6 +33,7 @@ struct Bnode{
 };
 typedef Baddr BTree;
 
+
 /* Konstruktor Node */
 NBaddr CreateNBnode(infotype info);
 /*Function untuk mengalokasikan node non-binary tree dan mengembalikan alamat node baru
@@ -41,12 +42,14 @@ Baddr CreateBnode(infotype info);
 /*Function untuk mengalokasikan node binary tree dan mengembalikan alamat node baru
 */
 
+
 /* Modul untuk konversi Non Binary Tree ke Binary Tree */
 void ConvertNBtree(NBTree NBtree, BTree* Broot, BTree* AVLroot);
 /*Procedure untuk membuat binary tree dari bentuk non-binary tree 
 	I.S.: Broot, NBroot, dan AVLroot terdefinisi 
 	F.S.: Broot menjadi binary tree dari non-binary tree, dan AVLroot menjadi balanced binary tree dari non-binary tree
 */
+
 
 /* Modul untuk alokasi sebuah node yang dimasukkan */
 void InsertNBnode(NBTree* NBroot, NBaddr parent, infotype info);
@@ -65,6 +68,7 @@ void InsertAVLnode(BTree* Broot, infotype info);
 	F.S.: Non-binary tree bertambah satu node
 */
 
+
 /* Modul Pembantu Untuk AVL Tree */
 int Max(int a, int b);
 /*Function untuk membandingkan dua nilai integer dan mengembalikan nilai terbesar
@@ -82,6 +86,7 @@ int GetDifference(Baddr node);
 /*Function untuk menembalikan nilai keseimbangan node
 */
 
+
 /* Search dengan mengembalikan address Node tertentu */
 Baddr SearchBnode(BTree Broot, infotype info);
 /*Function untuk mencari node dalam binary tree berdasarkan nilai info dan mengembalikan alamat node tersebut
@@ -92,6 +97,7 @@ NBaddr SearchNBnode (NBTree NBroot, infotype info);
 NBaddr SearchBeforeNB (NBTree NBroot, NBaddr target);
 /*Function untuk mencari node dalam non-binary tree berdasarkan nilai info dan mengembalikan alamat node tersebut
 */
+
 
 /* Traversal Non Binary Tree */
 void ViewTraversalNB(NBTree NBroot);
@@ -120,6 +126,7 @@ void NBInOrder(NBTree NBroot);
 	F.S.: Elemen non-binary tree ditampilkan di layar dengan urutan traversal in order
 */
 
+
 /* Traversal Binary Tree */
 void ViewTraversalB(BTree Broot);
 /*procedure menampilkan keempat traversal binary tree ke layar
@@ -147,6 +154,7 @@ void BInOrder(BTree Broot);
 	F.S.: Elemen binary tree ditampilkan di layar dengan urutan traversal in order
 */
 
+
 /* Delete Node Non Binary Tree */
 void DeleteNodeNB(NBTree* NBroot, infotype info);
 /*Procedure untuk menentukan jenis delete node, memanggil jenis delete untuk dieksekusi sesuai kondisi, 
@@ -165,11 +173,12 @@ void DeleteLeafNB(NBTree* NBroot, NBaddr toDelete);
 	I.S.: NBtree dan alamat node yang ingin dihapus terdefinisi
 	F.S.: Salah saatu node leaf dalam non-binary tree dihapus
 */
-void DeleteStemNB(NBaddr NBroot, NBaddr* node);
+void DeleteStemNB(NBTree* NBroot, NBaddr toDelete);
 /*Menghapus node yang berupa stem.
 	I.S.: NBtree dan alamat node yang ingin dihapus terdefinisi
 	F.S.: Salah saatu node stem dalam non-binary tree dihapus
 */
+
 
 /* Modul Pembantu Untuk Delete Non Binary Tree */
 bool IsLeafNB(NBTree NBroot);
@@ -177,6 +186,7 @@ bool IsLeafNB(NBTree NBroot);
 */
 void UpgradePositionNB(NBaddr* node);
 /*Procedure untuk memindahkan posisi sebuah node dalam non-binary tree dengan menata ulang anak dan saudaranya.
+
 */
 
 

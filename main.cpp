@@ -42,7 +42,7 @@ int main(){
 	ConvertNBtree(nb,&b,&avl);
 	
 	/* DELETE NODE */
-	DeleteNodeNB(&nb, 'a');
+	DeleteNodeNB(&nb, 'B');
 	
 	/* CETAK TREE */
 	printf("Post Order Non-Binary Tree: ");

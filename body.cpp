@@ -216,7 +216,6 @@ NBaddr SearchBeforeNB(NBTree NBroot, NBaddr target) {
     if (NBroot == NULL) {
         return NULL;
     }
-
     if (NBroot->nb == target) {
         return NBroot;
     }
@@ -325,6 +324,7 @@ void ViewTraversalB(BTree Broot){
 
 void DeleteNodeNB(NBTree* NBroot, infotype info) {
     NBaddr toDelete = SearchNBnode(*NBroot, info);
+    
     if (toDelete == NULL) {
         printf("\nNode not Found!\n");
         return;
@@ -336,29 +336,28 @@ void DeleteNodeNB(NBTree* NBroot, infotype info) {
         DeleteLeafNB(NBroot, toDelete);
         printf("\nLeaf Node Deleted!\n");
     } else {
-        DeleteStemNB(*NBroot, &toDelete);
+        DeleteStemNB(&(*NBroot), toDelete);
         printf("\nStem Node Deleted!\n");
     }
 }
 
-
 void DeleteRootNB(NBTree* NBroot, NBaddr toDelete){
-    NBaddr son = NULL;
+    NBaddr child = NULL;
 	
     if(IsLeafNB(toDelete)){
         *NBroot = NULL;
     } else {
-        son = toDelete->fs;
-        son->pr = NULL;
-        UpgradePositionNB(&son);
-        *NBroot = son;
+        child = toDelete->fs;
+        child->pr = NULL;
+        UpgradePositionNB(&child);
+        *NBroot = child;
     }
     free(toDelete);
 }
 
-
 void DeleteLeafNB(NBTree* NBroot, NBaddr toDelete){
     NBaddr parent = SearchBeforeNB(*NBroot, toDelete);
+    
     if(parent == NULL){
         return;
     } else if(parent->fs == toDelete){
@@ -381,33 +380,30 @@ void DeleteLeafNB(NBTree* NBroot, NBaddr toDelete){
     free(toDelete);
 }
 
-
-void DeleteStemNB(NBaddr NBroot, NBaddr* node) {
-    NBaddr son = (*node)->fs;
+void DeleteStemNB(NBTree* NBroot, NBaddr toDelete){
+    NBaddr child = toDelete->fs;
     NBaddr nextbrother = NULL;
     NBaddr prevBrother = NULL;
     
-    son->pr = (*node)->pr;
-    if (SearchBeforeNB(NBroot, *node) == 0) {
-        (*node)->pr->fs = son;
-        if ((*node)->nb == NULL) {
-            UpgradePositionNB(&son);
+    child->pr = toDelete->pr;
+    if (SearchBeforeNB(*NBroot, toDelete) == 0) {
+        toDelete->pr->fs = child;
+        if (toDelete->nb == NULL) {
+            UpgradePositionNB(&child);
         } else {
-            nextbrother = (*node)->nb;
-            UpgradePositionNB(&son);
-            son->nb = nextbrother;
+            nextbrother = toDelete->nb;
+            UpgradePositionNB(&child);
+            child->nb = nextbrother;
         }
     } else {
-        nextbrother = (*node)->nb;
-        UpgradePositionNB(&son);
-        son->nb = nextbrother;
-        NBaddr prevBrother = SearchBeforeNB(NBroot, *node);
-        prevBrother->nb = son;
+        nextbrother = toDelete->nb;
+        UpgradePositionNB(&child);
+        child->nb = nextbrother;
+        prevBrother = SearchBeforeNB(*NBroot, toDelete);
+        prevBrother->nb = child;
     }
-    *node = NULL;
-    free(*node);
+    free(toDelete);
 }
-
 
 
 /* Modul Pembantu Untuk Delete Non Binary Tree */
@@ -420,12 +416,15 @@ bool IsLeafNB(NBTree NBroot){
 }
 
 void UpgradePositionNB(NBaddr* node) {
+    NBaddr lastChild = NULL;
+    NBaddr sibling = NULL;
+	
     if ((*node)->fs && (*node)->nb) {
-        NBaddr lastChild = (*node)->fs;
+        lastChild = (*node)->fs;
         while (lastChild->nb) {
             lastChild = lastChild->nb;
         }
-        NBaddr sibling = (*node)->nb;
+        sibling = (*node)->nb;
         lastChild->nb = sibling;
         (*node)->nb = NULL;
         while (sibling) {
@@ -433,7 +432,7 @@ void UpgradePositionNB(NBaddr* node) {
             sibling = sibling->nb;
         }
     } else if ((*node)->fs == NULL) {
-        NBaddr sibling = (*node)->nb;
+        sibling = (*node)->nb;
         (*node)->nb = NULL;
         (*node)->fs = sibling;
         while (sibling) {
