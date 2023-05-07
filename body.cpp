@@ -100,6 +100,7 @@ Baddr CreateBnode(infotype info){
 /* Modul untuk konversi Non Binary Tree ke Binary Tree */
 void ConvertNBtree(NBTree NBroot, BTree* Broot, BTree* AVLroot){
     NBaddr Pcur;
+    AVLroot = NULL;
     bool arah = false;
     if (NBroot != NULL){
         Pcur = NBroot;
@@ -278,7 +279,7 @@ NBaddr SearchBeforeNB(NBTree NBroot, NBaddr target) {
     if (NBroot == NULL) {
         return NULL;
     }
-    if (NBroot->nb == target) {
+    if (NBroot->fs == target) {
         return NBroot;
     }
 
