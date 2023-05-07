@@ -2,21 +2,21 @@
 File        : main.cpp
 Deskripsi   : driver / main program untuk program convert non binary tree ke binary tree (AVL)
 Anggota     : Bhisma Chandra Yudha      221524037
-              Sarah                     221524059  
-              Zahran Augerah Rizqullah  221524063
+			  Sarah                     221524059
+			  Zahran Augerah Rizqullah  221524063
 Kelas/Prodi : 1B/D4 Teknik Informatika
 */
 
 #include "header.h"
 #include "body.cpp"
 
-int main(){
+int main()
+{
 	/* KAMUS DATA */
 	NBTree nb = NULL;
 	BTree b = NULL;
 	BTree avl = NULL;
-	int opsi = 0;
-	char filename[] = "FileTree.txt";
+	char filename[20]; //= "FileTree.txt";
 
 	/* INISIALISASI NON-BINARY TREE */
 	/*InsertNBnode(&nb, SearchNBnode(nb,'0'),'A');
@@ -29,8 +29,8 @@ int main(){
 	InsertNBnode(&nb, SearchNBnode(nb,'C'),'H');
 	InsertNBnode(&nb, SearchNBnode(nb,'D'),'I');
 	InsertNBnode(&nb, SearchNBnode(nb,'D'),'J');
-	InsertNBnode(&nb, SearchNBnode(nb,'J'),'K');
-	
+	InsertNBnode(&nb, SearchNBnode(nb,'J'),'K'); */
+
 	/* KONVERSI NON-BINARY TREE */
 	for (;;)
 	{
@@ -38,7 +38,44 @@ int main(){
 		{
 		case 1:
 			// input
-			nbInput(&nb);
+			char opsi[5];
+			int opsiInt;
+			for (;;)
+			{
+			b:
+				printf("1. Insert Manual\n");
+				printf("2. Insert From File\n");
+				scanf(" %s", opsi);
+				for (int i = 0; opsi[i]; i++)
+				{
+					if (!isdigit(opsi[i]))
+					{
+						printf("\nMasukkan angka bukan huruf!\n");
+						goto b;
+					}
+				}
+				opsiInt = atoi(opsi);
+				if (opsiInt < 1 || opsiInt > 2)
+				{
+					printf("Inputan salah!\n");
+					goto b;
+				}
+				else
+				{
+					if (opsiInt == 1)
+					{
+						nbInput(&nb);
+						break;
+					}
+					else
+					{
+						printf("Silahkan Masukkan Nama File (.txt): ");
+						scanf(" %s", &filename);
+						insertNBTreeFromFile(&nb, filename);
+						break;
+					}
+				}
+			}
 			system("pause");
 			system("cls");
 			break;
@@ -56,24 +93,32 @@ int main(){
 			break;
 		case 4:
 			// delete tree
-			// deleteTree(&nb);
+			deleteTree(&nb, &b, &avl);
 			system("pause");
 			system("cls");
 			break;
 		case 5:
 			// convert & print
 			ConvertNBtree(nb, &b, &avl);
-			printf("Post Order Non-Binary Tree: ");
-			NBPostOrder(nb);
-			printf("\nPost Order Binary Tree: ");
-			BPostOrder(b);
-			printf("\nPost Order AVL Tree: ");
-			BPostOrder(avl);
+			ViewTraversal(nb, b, avl);
 			system("pause");
 			system("cls");
 			break;
 		case 6:
-			// save tree
+			// save tree to file
+			if (nb == NULL)
+			{
+				printf("Tree Masih Kosong!\n");
+				system("pause");
+				system("cls");
+				break;
+			}
+			else
+			{
+				printf("Silahkan Masukkan Nama File (.txt): ");
+				scanf(" %s", &filename);
+				saveNBTreeToFile(nb, filename);
+			}
 			system("pause");
 			system("cls");
 			break;
@@ -87,16 +132,5 @@ int main(){
 			break;
 		}
 	}
-
-
-	insertNBTreeFromFile(&nb, filename);
-	ConvertNBtree(nb,&b,&avl);
-	ViewTraversalNB(nb);
-	printf("\n\tBinary Tree\n");
-	ViewTraversalB(b);
-	printf("\n\tAVL Tree\n");
-	ViewTraversalB(avl);
-    
-	//saveNBTreeToFile(nb, "FileTree.txt");
-    return 0;
+	return 0;
 }

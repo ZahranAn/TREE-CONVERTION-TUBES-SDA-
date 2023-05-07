@@ -145,6 +145,7 @@ void NBInOrder(NBTree NBroot);
 	F.S.: Elemen non-binary tree ditampilkan di layar dengan urutan traversal in order
 */
 
+void ViewTraversal(NBTree NBroot, BTree Broot, BTree AVLroot);
 
 /* Traversal Binary Tree */
 void ViewTraversalB(BTree Broot);
@@ -221,5 +222,11 @@ void listParent(NBaddr NBroot);
 void deleteNode(NBTree *NBroot);
 
 void editTree(NBTree *NBroot);
+
+void deleteTree(NBTree* NBroot, BTree* Broot, BTree* AVLroot);
+
+void DeleteNBtree(NBTree* NBroot);
+
+void DeleteBtree(BTree* Broot);
 
 #endif
