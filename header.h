@@ -229,4 +229,8 @@ void DeleteNBtree(NBTree* NBroot);
 
 void DeleteBtree(BTree* Broot);
 
+int depth(BTree node);
+
+int findLevel(BTree node, char data, int level);
+
 #endif

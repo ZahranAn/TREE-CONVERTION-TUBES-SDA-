@@ -802,7 +802,7 @@ awal:
     printf("2. Edit Tree\n");
     printf("3. Delete Node\n");
     printf("4. Delete Tree\n");
-    printf("5. Convert & Print Tree (Traversal)\n");
+    printf("5. Convert, Search(Level/Depth) & Print Tree (Traversal)\n");
     printf("6. Save Tree To File\n");
     printf("7. Exit\n");
     printf("Pilihan Anda: ");
@@ -965,4 +965,33 @@ void DeleteBtree(BTree *Broot)
     DeleteBtree(&((*Broot)->right));
     free(*Broot);
     *Broot = NULL;
+}
+
+int depth(BTree node) {
+    if (node == NULL) {
+        return 0;
+    } else {
+        int leftDepth = depth(node->left);
+        int rightDepth = depth(node->right);
+        if (leftDepth > rightDepth) {
+            return (leftDepth + 1);
+        } else {
+            return (rightDepth + 1);
+        }
+    }
+}
+
+int findLevel(BTree node, char data, int level) {
+    if (node == NULL) {
+        return 0;
+    }
+    if (node->info == data) {
+        return level;
+    }
+    int downLevel = findLevel(node->left, data, level + 1);
+    if (downLevel != 0) {
+        return downLevel;
+    }
+    downLevel = findLevel(node->right, data, level + 1);
+    return downLevel;
 }
