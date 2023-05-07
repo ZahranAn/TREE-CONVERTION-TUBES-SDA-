@@ -212,4 +212,14 @@ void nbTreeToFile(NBTree root, FILE *fp);
 void saveNBTreeToFile(NBTree root, char *filename);
 void insertNBTreeFromFile(NBTree *NBroot, char *filename);
 
+int menu();
+
+void nbInput(NBTree *NBroot);
+
+void listParent(NBaddr NBroot);
+
+void deleteNode(NBTree *NBroot);
+
+void editTree(NBTree *NBroot);
+
 #endif

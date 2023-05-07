@@ -9,6 +9,7 @@ Kelas/Prodi : 1B/D4 Teknik Informatika
 
 #include "header.h"
 #include <malloc.h>
+#include <ctype.h>
 
 /*ADT Queue untuk Level Order*/
 void initQueue(Queue* q) {
@@ -100,7 +101,7 @@ Baddr CreateBnode(infotype info){
 /* Modul untuk konversi Non Binary Tree ke Binary Tree */
 void ConvertNBtree(NBTree NBroot, BTree* Broot, BTree* AVLroot){
     NBaddr Pcur;
-    AVLroot = NULL;
+    *AVLroot = NULL;
     bool arah = false;
     if (NBroot != NULL){
         Pcur = NBroot;
@@ -603,4 +604,136 @@ void insertNBTreeFromFile(NBTree *NBroot, char *filename) {
     }
     
     fclose(fp);
+}
+
+int menu()
+{
+    int nilai;
+    char input[5];
+awal:
+    printf("PROGRAM KONVERSI NON BINARY TREE - BINARY TREE MENGGUNAKAN AVL\n");
+    printf("D4 Teknik Informatika - 1B\n");
+    printf("~ Bhisma Chandra Yudha - 221524037\n");
+    printf("~ Sarah - 221524059\n");
+    printf("~ Zahran Anugerah Rizqullah - 221524063\n\n");
+    printf("1. Input Tree\n");
+    printf("2. Edit Tree\n");
+    printf("3. Delete Node\n");
+    printf("4. Delete Tree\n");
+    printf("5. Convert & Print Tree (Traversal)\n");
+    printf("6. Save Tree To File\n");
+    printf("7. Exit\n");
+    printf("Pilihan Anda: ");
+    scanf(" %s", input);
+
+    for (int i = 0; input[i]; i++)
+    {
+        if (!isdigit(input[i]))
+        {
+            printf("\nMasukkan angka bukan huruf!\n");
+            system("pause");
+            system("cls");
+            goto awal;
+        }
+    }
+
+    nilai = atoi(input);
+
+    if (nilai < 1 || nilai > 7)
+    {
+        printf("Masukkan angka dari 1-7 !\n");
+        system("pause");
+        system("cls");
+        goto awal;
+    }
+    else
+    {
+        return nilai;
+    }
+}
+
+void nbInput(NBTree *NBroot)
+{
+    infotype parent;
+    infotype nama;
+    printf("Masukkan Nama Node Yang Akan Dimasukkan: ");
+    scanf(" %c", &nama);
+    if (*NBroot == NULL)
+    {
+        InsertNBnode(&(*NBroot), SearchNBnode(*NBroot, '0'), nama);
+    }
+    else
+    {
+        printf("DAFTAR PARENTS\n");
+        listParent(*NBroot);
+    a:
+        printf("Masukkan Nama Parent: ");
+        scanf(" %c", &parent);
+        if (SearchNBnode((*NBroot), parent) == NULL)
+        {
+            printf("\nInput Gagal! Masukkan Nama Parent yang sesuai\n");
+            goto a;
+        }
+        else
+        {
+            InsertNBnode(&(*NBroot), SearchNBnode((*NBroot), parent), nama);
+            printf("\nInput Berhasil!");
+        }
+    }
+}
+
+void listParent(NBaddr NBroot)
+{
+    if (NBroot != NULL)
+    {
+        printf("~ %c.\n", NBroot->info);
+        listParent(NBroot->fs);
+        listParent(NBroot->nb);
+    }
+}
+
+void deleteNode(NBTree *NBroot)
+{
+    infotype nama;
+    listParent((*NBroot));
+    printf("Masukkan Node Yang Ingin Dihapus: ");
+    scanf(" %c", &nama);
+    DeleteNodeNB(&(*NBroot), nama);
+}
+
+void editTree(NBTree *NBroot)
+{
+    NBaddr change;
+    infotype oldname, newname;
+
+    if ((*NBroot) == NULL)
+    {
+        printf("\nTree Belum Dibuat!");
+    }
+    else
+    {
+    ulang:
+        listParent(*NBroot);
+        printf("\nMasukkan Nama Yang Ingin Diedit: ");
+        scanf(" %c", &oldname);
+        change = SearchNBnode(*NBroot, oldname);
+        if (change != NULL)
+        {
+            printf("Masukan Nama Baru: ");
+            scanf(" %c", &newname);
+            change->info = newname;
+            printf("\nUpdate Sukses!");
+        }
+        else
+        {
+            printf("\nNama Tidak Ada, Ulangi. \n");
+            system("pause");
+            system("cls");
+            goto ulang;
+        }
+    }
+}
+
+void deleteTree(NBTree){
+
 }

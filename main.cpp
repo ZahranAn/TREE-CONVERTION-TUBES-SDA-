@@ -32,6 +32,63 @@ int main(){
 	InsertNBnode(&nb, SearchNBnode(nb,'J'),'K');
 	
 	/* KONVERSI NON-BINARY TREE */
+	for (;;)
+	{
+		switch (menu())
+		{
+		case 1:
+			// input
+			nbInput(&nb);
+			system("pause");
+			system("cls");
+			break;
+		case 2:
+			// edit
+			editTree(&nb);
+			system("pause");
+			system("cls");
+			break;
+		case 3:
+			// delete node
+			deleteNode(&nb);
+			system("pause");
+			system("cls");
+			break;
+		case 4:
+			// delete tree
+			// deleteTree(&nb);
+			system("pause");
+			system("cls");
+			break;
+		case 5:
+			// convert & print
+			ConvertNBtree(nb, &b, &avl);
+			printf("Post Order Non-Binary Tree: ");
+			NBPostOrder(nb);
+			printf("\nPost Order Binary Tree: ");
+			BPostOrder(b);
+			printf("\nPost Order AVL Tree: ");
+			BPostOrder(avl);
+			system("pause");
+			system("cls");
+			break;
+		case 6:
+			// save tree
+			system("pause");
+			system("cls");
+			break;
+		case 7:
+			// exit
+			printf("Terima kasih telah menggunakan program kami!");
+			exit(0);
+			break;
+		default:
+			printf("Input yang dimasukkan salah!");
+			break;
+		}
+	}
+
+
 	insertNBTreeFromFile(&nb, filename);
 	ConvertNBtree(nb,&b,&avl);
 	ViewTraversalNB(nb);
