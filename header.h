@@ -12,6 +12,7 @@ Kelas/Prodi : 1B/D4 Teknik Informatika
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <malloc.h>
 
 typedef char infotype;
 

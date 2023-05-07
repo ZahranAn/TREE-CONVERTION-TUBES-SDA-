@@ -8,7 +8,6 @@ Kelas/Prodi : 1B/D4 Teknik Informatika
 */
 
 #include "header.h"
-#include <malloc.h>
 
 /*ADT Queue untuk Level Order*/
 void initQueue(Queue* q) {
@@ -100,7 +99,8 @@ Baddr CreateBnode(infotype info){
 /* Modul untuk konversi Non Binary Tree ke Binary Tree */
 void ConvertNBtree(NBTree NBroot, BTree* Broot, BTree* AVLroot){
     NBaddr Pcur;
-    AVLroot = NULL;
+    *Broot = NULL;
+    *AVLroot = NULL;
     bool arah = false;
     if (NBroot != NULL){
         Pcur = NBroot;
@@ -282,7 +282,6 @@ NBaddr SearchBeforeNB(NBTree NBroot, NBaddr target) {
     if (NBroot->fs == target) {
         return NBroot;
     }
-
     NBaddr result = SearchBeforeNB(NBroot->fs, target);
     if (result == NULL) {
         result = SearchBeforeNB(NBroot->nb, target);
@@ -470,7 +469,6 @@ void DeleteRootNB(NBTree* NBroot, NBaddr toDelete){
 
 void DeleteLeafNB(NBTree* NBroot, NBaddr toDelete){
     NBaddr parent = SearchBeforeNB(*NBroot, toDelete);
-    
     if(parent == NULL){
         return;
     } else if(parent->fs == toDelete){
@@ -495,28 +493,33 @@ void DeleteLeafNB(NBTree* NBroot, NBaddr toDelete){
 
 void DeleteStemNB(NBTree* NBroot, NBaddr toDelete){
     NBaddr child = toDelete->fs;
-    NBaddr nextbrother = NULL;
+    NBaddr nextBrother = NULL;
     NBaddr prevBrother = NULL;
-    
+
     child->pr = toDelete->pr;
-    if (SearchBeforeNB(*NBroot, toDelete) == 0) {
+    if (SearchBeforeNB(*NBroot, toDelete) == NULL) {
         toDelete->pr->fs = child;
         if (toDelete->nb == NULL) {
             UpgradePositionNB(&child);
         } else {
-            nextbrother = toDelete->nb;
+            nextBrother = toDelete->nb;
             UpgradePositionNB(&child);
-            child->nb = nextbrother;
+            child->nb = nextBrother;
         }
     } else {
-        nextbrother = toDelete->nb;
+        nextBrother = toDelete->nb;
         UpgradePositionNB(&child);
-        child->nb = nextbrother;
+        child->nb = nextBrother;
         prevBrother = SearchBeforeNB(*NBroot, toDelete);
-        prevBrother->nb = child;
+        if (prevBrother->fs == toDelete) {
+            prevBrother->fs = child;
+        } else {
+            prevBrother->nb = child;
+        }
     }
     free(toDelete);
 }
+
 
 
 /* Modul Pembantu Untuk Delete Non Binary Tree */

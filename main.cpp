@@ -8,7 +8,6 @@ Kelas/Prodi : 1B/D4 Teknik Informatika
 */
 
 #include "header.h"
-#include "body.cpp"
 
 int main(){
 	/* KAMUS DATA */
@@ -16,30 +15,30 @@ int main(){
 	BTree b = NULL;
 	BTree avl = NULL;
 	int opsi = 0;
-	char filename[] = "FileTree.txt";
+//	char filename[] = "FileTree.txt";
 
 	/* INISIALISASI NON-BINARY TREE */
-	/*InsertNBnode(&nb, SearchNBnode(nb,'0'),'A');
+	InsertNBnode(&nb, SearchNBnode(nb,'0'),'A');
 	InsertNBnode(&nb, SearchNBnode(nb,'A'),'B');
-	InsertNBnode(&nb, SearchNBnode(nb,'A'),'C');
-	InsertNBnode(&nb, SearchNBnode(nb,'A'),'D');
-	InsertNBnode(&nb, SearchNBnode(nb,'B'),'E');
-	InsertNBnode(&nb, SearchNBnode(nb,'C'),'F');
-	InsertNBnode(&nb, SearchNBnode(nb,'C'),'G');
-	InsertNBnode(&nb, SearchNBnode(nb,'C'),'H');
-	InsertNBnode(&nb, SearchNBnode(nb,'D'),'I');
-	InsertNBnode(&nb, SearchNBnode(nb,'D'),'J');
-	InsertNBnode(&nb, SearchNBnode(nb,'J'),'K');
+	InsertNBnode(&nb, SearchNBnode(nb,'B'),'C');
 	
 	/* KONVERSI NON-BINARY TREE */
-	insertNBTreeFromFile(&nb, filename);
+//	insertNBTreeFromFile(&nb, filename);
 	ConvertNBtree(nb,&b,&avl);
 	ViewTraversalNB(nb);
 	printf("\n\tBinary Tree\n");
 	ViewTraversalB(b);
 	printf("\n\tAVL Tree\n");
 	ViewTraversalB(avl);
+	
+	DeleteNodeNB(&nb, 'B');
     
-	//saveNBTreeToFile(nb, "FileTree.txt");
+	ConvertNBtree(nb,&b,&avl);
+    ViewTraversalNB(nb);
+	printf("\n\tBinary Tree\n");
+	ViewTraversalB(b);
+	printf("\n\tAVL Tree\n");
+	ViewTraversalB(avl);
+	
     return 0;
 }
