@@ -8,6 +8,7 @@ Kelas/Prodi : 1B/D4 Teknik Informatika
 */
 
 #include "header.h"
+#include "body.cpp"
 
 int main(){
 	/* KAMUS DATA */
@@ -32,8 +33,16 @@ int main(){
 	/* KONVERSI NON-BINARY TREE */
 	ConvertNBtree(nb,&b,&avl);
 	
+    /* CETAK TREE */
+	printf("Level Order Non-Binary Tree: ");
+	NBLevelOrder(nb);
+	printf("\nLevel Order Binary Tree: ");
+	BLevelOrder(b);
+	printf("\nLevel Order AVL Tree: ");
+	BLevelOrder(avl);
+
 	/* CETAK TREE */
-	printf("Post Order Non-Binary Tree: ");
+	printf("\n\nPost Order Non-Binary Tree: ");
 	NBPostOrder(nb);
 	printf("\nPost Order Binary Tree: ");
 	BPostOrder(b);
@@ -45,11 +54,12 @@ int main(){
 	DeleteNodeNB(&nb, 'B');
 	
 	/* CETAK TREE */
-	printf("Post Order Non-Binary Tree: ");
+	printf("\n\nPost Order Non-Binary Tree: ");
 	NBPostOrder(nb);
 	printf("\nPost Order Binary Tree: ");
 	BPostOrder(b);
 	printf("\nPost Order AVL Tree: ");
 	BPostOrder(avl);
-return 0;
+    
+    return 0;
 }

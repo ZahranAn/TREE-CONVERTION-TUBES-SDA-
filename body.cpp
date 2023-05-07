@@ -10,6 +10,68 @@ Kelas/Prodi : 1B/D4 Teknik Informatika
 #include "header.h"
 #include <malloc.h>
 
+/*ADT Queue untuk Level Order*/
+void initQueue(Queue* q) {
+    q->front = NULL;
+    q->rear = NULL;
+}
+
+int isEmpty(Queue* q) {
+    return (q->front == NULL);
+}
+
+void enqueue(Queue* q, NBaddr dataNB, Baddr dataB) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->dataNB = dataNB;
+    newNode->dataB = dataB;
+    newNode->next = NULL;
+
+    if (newNode == NULL) {
+        printf("Alokasi gagal, memori penuh!\n");
+    }
+
+    if (isEmpty(q)) {
+        q->front = newNode;
+        q->rear = newNode;
+    } else {
+        q->rear->next = newNode;
+        q->rear = newNode;
+    }
+}
+
+void dequeue(Queue* q) {
+    if (isEmpty(q)) {
+        return;
+    }
+
+    Node* temp = q->front;
+    q->front = q->front->next;
+    free(temp);
+
+    if (isEmpty(q)) {
+        q->rear = NULL;
+    }
+}
+
+NBaddr front(Queue* q) {
+    if (isEmpty(q)) {
+        return NULL;
+    }
+
+    return q->front->dataNB;
+}
+
+int getSize(Queue* q) {
+    int size = 0;
+    Node* current = q->front;
+    while (current != NULL) {
+        size++;
+        current = current->next;
+    }
+    return size;
+}
+
+
 /* Konstruktor Node */
 NBaddr CreateNBnode(infotype info){
     NBaddr newNode;
@@ -231,7 +293,32 @@ NBaddr SearchBeforeNB(NBTree NBroot, NBaddr target) {
 
 /* Traversal Non Binary Tree */
 void NBLevelOrder(NBTree NBroot){
-    //perlu queue
+    if (NBroot == NULL) {
+        return;
+    }
+
+    BTree Broot;
+    Queue q;
+    initQueue(&q);
+    enqueue(&q, NBroot, Broot);
+
+    while (!isEmpty(&q)) {
+        int n = getSize(&q);
+        for (int i = 0; i < n; i++) {
+            NBaddr node = front(&q);
+            dequeue(&q);
+
+            // Proses data pada node (misalnya, cetak nama node)
+            printf(" %c", node->info);
+
+            // Jika node memiliki anak, tambahkan semua anak ke dalam queue
+            NBaddr child = node->fs;
+            while (child != NULL) {
+                enqueue(&q, child, Broot);
+                child = child->nb;
+            }
+        }
+    }
 }
 
 void NBPostOrder(NBTree NBroot){
@@ -281,7 +368,32 @@ void ViewTraversalNB(NBTree NBroot){
 
 /* Traversal Binary Tree*/
 void BLevelOrder(BTree Broot){
-    //perlu queue
+    if (Broot == NULL) {
+        return;
+    }
+
+    NBTree NBroot;
+    Queue q;
+    q.front = NULL;
+    q.rear = NULL;
+    enqueue(&q, NBroot, Broot);
+
+    while (q.front != NULL) {
+        Baddr node = q.front->dataB;
+        dequeue(&q);
+
+        // Proses data pada node (misalnya, cetak info node)
+        printf(" %c", node->info);
+
+        // Jika node memiliki anak kiri, tambahkan anak kiri ke dalam queue
+        if (node->left != NULL) {
+            enqueue(&q, NBroot, node->left);
+        }
+        // Jika node memiliki anak kanan, tambahkan anak kanan ke dalam queue
+        if (node->right != NULL) {
+            enqueue(&q, NBroot, node->right);
+        }
+    }
 }
 
 void BPostOrder(BTree Broot){

@@ -33,6 +33,25 @@ struct Bnode{
 };
 typedef Baddr BTree;
 
+typedef struct Node {
+    NBaddr dataNB;
+	Baddr dataB;
+    struct Node* next;
+} Node;
+
+typedef struct Queue {
+    Node* front;
+    Node* rear;
+} Queue;
+
+
+void initQueue(Queue* q);
+int isEmpty(Queue* q);
+void enqueue(Queue* q, NBaddr dataNB, Baddr dataB);
+void dequeue(Queue* q);
+NBaddr front(Queue* q);
+int getSize(Queue* q);
+
 
 /* Konstruktor Node */
 NBaddr CreateNBnode(infotype info);
