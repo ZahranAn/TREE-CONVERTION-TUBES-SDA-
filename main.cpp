@@ -19,17 +19,17 @@ int main()
 	char filename[20]; //= "FileTree.txt";
 
 	/* INISIALISASI NON-BINARY TREE */
-	/*InsertNBnode(&nb, SearchNBnode(nb,'0'),'A');
-	InsertNBnode(&nb, SearchNBnode(nb,'A'),'B');
-	InsertNBnode(&nb, SearchNBnode(nb,'A'),'C');
-	InsertNBnode(&nb, SearchNBnode(nb,'A'),'D');
-	InsertNBnode(&nb, SearchNBnode(nb,'B'),'E');
-	InsertNBnode(&nb, SearchNBnode(nb,'C'),'F');
-	InsertNBnode(&nb, SearchNBnode(nb,'C'),'G');
-	InsertNBnode(&nb, SearchNBnode(nb,'C'),'H');
-	InsertNBnode(&nb, SearchNBnode(nb,'D'),'I');
-	InsertNBnode(&nb, SearchNBnode(nb,'D'),'J');
-	InsertNBnode(&nb, SearchNBnode(nb,'J'),'K'); */
+	// InsertNBnode(&nb, SearchNBnode(nb,'0'),'A');
+	// InsertNBnode(&nb, SearchNBnode(nb,'A'),'B');
+	// InsertNBnode(&nb, SearchNBnode(nb,'A'),'C');
+	// InsertNBnode(&nb, SearchNBnode(nb,'A'),'D');
+	// InsertNBnode(&nb, SearchNBnode(nb,'B'),'E');
+	// InsertNBnode(&nb, SearchNBnode(nb,'C'),'F');
+	// InsertNBnode(&nb, SearchNBnode(nb,'C'),'G');
+	// InsertNBnode(&nb, SearchNBnode(nb,'C'),'H');
+	// InsertNBnode(&nb, SearchNBnode(nb,'D'),'I');
+	// InsertNBnode(&nb, SearchNBnode(nb,'D'),'J');
+	// InsertNBnode(&nb, SearchNBnode(nb,'J'),'K');
 
 	/* KONVERSI NON-BINARY TREE */
 	for (;;)
@@ -100,6 +100,32 @@ int main()
 		case 5:
 			// convert & print
 			ConvertNBtree(nb, &b, &avl);
+			printf("Apakah Anda Ingin Mencari Node (Level/Depth Nya Juga)?(Y/N)\n");
+			char pilihan;
+			scanf(" %c", &pilihan);
+			if (pilihan == 'Y' || pilihan == 'y')
+			{
+				printf("Masukkan Node Yang Ingin Anda Cari: ");
+				char nama;
+				scanf(" %c", &nama);
+				Baddr P;
+				P = SearchBnode(b, nama);
+				if (P == NULL)
+				{
+					printf("Node Tidak Ditemukan!\n");
+				}
+				else
+				{
+					int kedalaman = depth(b);
+					printf("Kedalaman Binary Tree %d\n", kedalaman);
+					int level = findLevel(b, nama, 1);
+					printf("Level Dari Node %c Binary Tree Adalah %d\n", nama, level);
+					kedalaman = depth(avl);
+					printf("Kedalaman AVL Tree %d\n", kedalaman);
+					level = findLevel(avl, nama, 1);
+					printf("Level Dari Node %c AVL Tree Adalah %d\n", nama, level);
+				}
+			}
 			ViewTraversal(nb, b, avl);
 			system("pause");
 			system("cls");
