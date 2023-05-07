@@ -552,7 +552,9 @@ void ViewTraversal(NBTree NBroot, BTree Broot, BTree AVLroot)
     else
     {
         ViewTraversalNB(NBroot);
+        printf("\tBinary Tree\n");
         ViewTraversalB(Broot);
+        printf("\tAVL Tree\n");
         ViewTraversalB(AVLroot);
     }
 }
