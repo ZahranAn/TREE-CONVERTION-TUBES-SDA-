@@ -101,6 +101,7 @@ Baddr CreateBnode(infotype info){
 /* Modul untuk konversi Non Binary Tree ke Binary Tree */
 void ConvertNBtree(NBTree NBroot, BTree* Broot, BTree* AVLroot){
     NBaddr Pcur;
+    *Broot = NULL;
     *AVLroot = NULL;
     bool arah = false;
     if (NBroot != NULL){
@@ -500,7 +501,7 @@ void DeleteStemNB(NBTree* NBroot, NBaddr toDelete){
     NBaddr prevBrother = NULL;
     
     child->pr = toDelete->pr;
-    if (SearchBeforeNB(*NBroot, toDelete) == 0) {
+    if (SearchBeforeNB(*NBroot, toDelete) == NULL) {
         toDelete->pr->fs = child;
         if (toDelete->nb == NULL) {
             UpgradePositionNB(&child);
@@ -515,6 +516,16 @@ void DeleteStemNB(NBTree* NBroot, NBaddr toDelete){
         child->nb = nextbrother;
         prevBrother = SearchBeforeNB(*NBroot, toDelete);
         prevBrother->nb = child;
+        if (prevBrother->fs == toDelete)
+        {
+            prevBrother->fs = child;
+        }
+        else
+        {
+            prevBrother->nb = child;
+        }
+        
+        
     }
     free(toDelete);
 }
@@ -588,6 +599,10 @@ void saveNBTreeToFile(NBTree root, char *filename) {
 
     nbTreeToFile(root, fp); // menyimpan data ke file
     fclose(fp); // menutup file
+}
+
+void saveTreeToFile() {
+
 }
 
 void insertNBTreeFromFile(NBTree *NBroot, char *filename) {

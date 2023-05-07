@@ -15,7 +15,6 @@ int main(){
 	NBTree nb = NULL;
 	BTree b = NULL;
 	BTree avl = NULL;
-	int opsi = 0;
 	char filename[] = "FileTree.txt";
 
 	/* INISIALISASI NON-BINARY TREE */
@@ -29,7 +28,7 @@ int main(){
 	InsertNBnode(&nb, SearchNBnode(nb,'C'),'H');
 	InsertNBnode(&nb, SearchNBnode(nb,'D'),'I');
 	InsertNBnode(&nb, SearchNBnode(nb,'D'),'J');
-	InsertNBnode(&nb, SearchNBnode(nb,'J'),'K');
+	InsertNBnode(&nb, SearchNBnode(nb,'J'),'K'); */
 	
 	/* KONVERSI NON-BINARY TREE */
 	for (;;)
@@ -63,17 +62,15 @@ int main(){
 		case 5:
 			// convert & print
 			ConvertNBtree(nb, &b, &avl);
-			printf("Post Order Non-Binary Tree: ");
-			NBPostOrder(nb);
-			printf("\nPost Order Binary Tree: ");
-			BPostOrder(b);
-			printf("\nPost Order AVL Tree: ");
-			BPostOrder(avl);
+			ViewTraversalNB(nb);
+			ViewTraversalB(b);
+			ViewTraversalB(avl);
 			system("pause");
 			system("cls");
 			break;
 		case 6:
 			// save tree
+			saveTreeToFile();
 			system("pause");
 			system("cls");
 			break;
