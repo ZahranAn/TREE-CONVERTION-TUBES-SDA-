@@ -836,36 +836,37 @@ void nbInput(NBTree *NBroot)
 {
     infotype parent;
     infotype nama;
-    if (NBroot == NULL)
+    if (*NBroot == NULL)
     {
-        printf("Tree Kosong!\n");
+        printf("DAFTAR PARENTS\n");
+        printf("Tree Masih Kosong!\n");
     }
     else
     {
         printf("DAFTAR PARENTS\n");
         listParent(*NBroot);
-        printf("Masukkan Nama Node Yang Akan Dimasukkan: ");
-        scanf(" %c", &nama);
-        if (*NBroot == NULL)
+    }
+    printf("Masukkan Nama Node Yang Akan Dimasukkan: ");
+    scanf(" %c", &nama);
+    if (*NBroot == NULL)
+    {
+        InsertNBnode(&(*NBroot), SearchNBnode(*NBroot, '0'), nama);
+        printf("\nInput Berhasil!\n");
+    }
+    else
+    {
+    a:
+        printf("Masukkan Nama Parent: ");
+        scanf(" %c", &parent);
+        if (SearchNBnode((*NBroot), parent) == NULL)
         {
-            InsertNBnode(&(*NBroot), SearchNBnode(*NBroot, '0'), nama);
-            printf("\nInput Berhasil!\n");
+            printf("\nInput Gagal! Masukkan Nama Parent yang sesuai\n");
+            goto a;
         }
         else
         {
-        a:
-            printf("Masukkan Nama Parent: ");
-            scanf(" %c", &parent);
-            if (SearchNBnode((*NBroot), parent) == NULL)
-            {
-                printf("\nInput Gagal! Masukkan Nama Parent yang sesuai\n");
-                goto a;
-            }
-            else
-            {
-                InsertNBnode(&(*NBroot), SearchNBnode((*NBroot), parent), nama);
-                printf("\nInput Berhasil!\n");
-            }
+            InsertNBnode(&(*NBroot), SearchNBnode((*NBroot), parent), nama);
+            printf("\nInput Berhasil!\n");
         }
     }
 }
@@ -888,6 +889,8 @@ void deleteNode(NBTree *NBroot)
         printf("Tree Masih Kosong!\n");
         return;
     }
+    printf("DAFTAR PARENTS\n");
+    listParent(*NBroot);
     printf("Masukkan Node Yang Ingin Dihapus: ");
     scanf(" %c", &nama);
     DeleteNodeNB(&(*NBroot), nama);
@@ -905,6 +908,7 @@ void editTree(NBTree *NBroot)
     else
     {
     ulang:
+        printf("DAFTAR PARENTS\n");
         listParent(*NBroot);
         printf("\nMasukkan Nama Yang Ingin Diedit: ");
         scanf(" %c", &oldname);
