@@ -424,8 +424,8 @@ void ViewTraversalB(BTree Broot){
     if(Broot == NULL){
         printf("\n\tTree masih kosong!\n");
     }
-//    printf("\tLEVELORDER : ");
-//    BLevelOrder(Broot); printf("\n");
+    printf("\tLEVELORDER : ");
+    BLevelOrder(Broot); printf("\n");
     printf("\tPOSTORDER : ");
     BPostOrder(Broot); printf("\n");
     printf("\tPREORDER  : ");
@@ -554,4 +554,52 @@ void UpgradePositionNB(NBaddr* node) {
     }
 }
 
+void nbTreeToFile(NBTree root, FILE *fp) {
+    if (root == NULL) {
+        return;
+    }
 
+    NBaddr child = root->fs; // pointer ke node anak pertama
+    if (root->pr == NULL) {
+        // jika root, simpan dengan parent 0
+        fprintf(fp, "(%c, %c) ", '0', root->info);
+    }
+    while (child != NULL) {
+        // menyimpan pasangan (parent, child) ke file
+        fprintf(fp, "(%c, %c) ", root->info, child->info);
+        
+        // rekursif untuk setiap anak
+        nbTreeToFile(child, fp);
+        
+        // menuju sibling berikutnya
+        child = child->nb;
+    }
+}
+
+void saveNBTreeToFile(NBTree root, char *filename) {
+    FILE *fp = fopen(filename, "w");
+
+    if (fp == NULL) {
+        printf("Gagal membuka file");
+        return;
+    }
+
+    nbTreeToFile(root, fp); // menyimpan data ke file
+    fclose(fp); // menutup file
+}
+
+void insertNBTreeFromFile(NBTree *NBroot, char *filename) {
+    FILE *fp = fopen(filename, "r");
+
+    if (fp == NULL) {
+        printf("Gagal membuka file");
+        return;
+    }
+
+    char parent, node;
+    while (fscanf(fp, "(%c, %c) ", &parent, &node) != EOF) {
+        InsertNBnode(&(*NBroot), SearchNBnode(*NBroot,parent),node);
+    }
+    
+    fclose(fp);
+}

@@ -16,9 +16,10 @@ int main(){
 	BTree b = NULL;
 	BTree avl = NULL;
 	int opsi = 0;
+	char filename[] = "FileTree.txt";
 
 	/* INISIALISASI NON-BINARY TREE */
-	InsertNBnode(&nb, SearchNBnode(nb,'0'),'A');
+	/*InsertNBnode(&nb, SearchNBnode(nb,'0'),'A');
 	InsertNBnode(&nb, SearchNBnode(nb,'A'),'B');
 	InsertNBnode(&nb, SearchNBnode(nb,'A'),'C');
 	InsertNBnode(&nb, SearchNBnode(nb,'A'),'D');
@@ -31,35 +32,14 @@ int main(){
 	InsertNBnode(&nb, SearchNBnode(nb,'J'),'K');
 	
 	/* KONVERSI NON-BINARY TREE */
+	insertNBTreeFromFile(&nb, filename);
 	ConvertNBtree(nb,&b,&avl);
-	
-    /* CETAK TREE */
-	printf("Level Order Non-Binary Tree: ");
-	NBLevelOrder(nb);
-	printf("\nLevel Order Binary Tree: ");
-	BLevelOrder(b);
-	printf("\nLevel Order AVL Tree: ");
-	BLevelOrder(avl);
-
-	/* CETAK TREE */
-	printf("\n\nPost Order Non-Binary Tree: ");
-	NBPostOrder(nb);
-	printf("\nPost Order Binary Tree: ");
-	BPostOrder(b);
-	printf("\nPost Order AVL Tree: ");
-	BPostOrder(avl);
-	ConvertNBtree(nb,&b,&avl);
-	
-	/* DELETE NODE */
-	DeleteNodeNB(&nb, 'B');
-	
-	/* CETAK TREE */
-	printf("\n\nPost Order Non-Binary Tree: ");
-	NBPostOrder(nb);
-	printf("\nPost Order Binary Tree: ");
-	BPostOrder(b);
-	printf("\nPost Order AVL Tree: ");
-	BPostOrder(avl);
+	ViewTraversalNB(nb);
+	printf("\n\tBinary Tree\n");
+	ViewTraversalB(b);
+	printf("\n\tAVL Tree\n");
+	ViewTraversalB(avl);
     
+	//saveNBTreeToFile(nb, "FileTree.txt");
     return 0;
 }

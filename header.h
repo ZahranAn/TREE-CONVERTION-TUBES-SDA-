@@ -208,5 +208,8 @@ void UpgradePositionNB(NBaddr* node);
 
 */
 
+void nbTreeToFile(NBTree root, FILE *fp);
+void saveNBTreeToFile(NBTree root, char *filename);
+void insertNBTreeFromFile(NBTree *NBroot, char *filename);
 
 #endif
