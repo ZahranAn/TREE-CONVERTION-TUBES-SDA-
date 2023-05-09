@@ -233,4 +233,6 @@ int depth(BTree node);
 
 int findLevel(BTree node, char data, int level);
 
+void print_tree(BTree tree, int level);
+
 #endif

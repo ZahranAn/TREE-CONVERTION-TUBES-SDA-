@@ -100,6 +100,7 @@ int main()
 		case 5:
 			// convert & print
 			ConvertNBtree(nb, &b, &avl);
+			c:
 			printf("Apakah Anda Ingin Mencari Node (Level/Depth Nya Juga)?(Y/N)\n");
 			char pilihan;
 			scanf(" %c", &pilihan);
@@ -125,8 +126,17 @@ int main()
 					level = findLevel(avl, nama, 1);
 					printf("Level Dari Node %c AVL Tree Adalah %d\n", nama, level);
 				}
+				ViewTraversal(nb, b, avl);
 			}
-			ViewTraversal(nb, b, avl);
+			else if (pilihan == 'N' || pilihan == 'n')
+			{
+				ViewTraversal(nb, b, avl);
+			}
+			else
+			{
+				printf("Masukkan input yang sesuai!\n");
+				goto c;
+			}
 			system("pause");
 			system("cls");
 			break;
