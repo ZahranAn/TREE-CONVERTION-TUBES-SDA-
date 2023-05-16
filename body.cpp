@@ -10,6 +10,11 @@ Kelas/Prodi : 1B/D4 Teknik Informatika
 #include "header.h"
 #include <malloc.h>
 #include <ctype.h>
+#include <cmath>
+#include <iostream>
+#include <queue>
+
+using namespace std;
 
 /*ADT Queue untuk Level Order*/
 void initQueue(Queue *q)
@@ -561,7 +566,6 @@ void BInOrder(BTree Broot)
 
 void ViewTraversalB(BTree Broot)
 {
-    print_tree(Broot, 0);
     printf("\tLEVELORDER : ");
     BLevelOrder(Broot);
     printf("\n");
@@ -835,9 +839,10 @@ awal:
     printf("2. Edit Tree\n");
     printf("3. Delete Node\n");
     printf("4. Delete Tree\n");
-    printf("5. Convert, Search(Level/Depth) & Print Tree (Traversal)\n");
+    printf("5. Convert & Print Tree (Traversal)\n");
     printf("6. Save Tree To File\n");
-    printf("7. Exit\n");
+    printf("7. Search Node, Print Depth Tree & Level Node\n");
+    printf("8. Exit\n");
     printf("Pilihan Anda: ");
     scanf(" %s", input);
 
@@ -1014,6 +1019,23 @@ int depth(BTree node) {
     }
 }
 
+int depthNB(NBTree node) {
+    if (node == NULL){
+        return 0;
+    }else{
+        int maxChildDepth = 0;
+        NBTree child = node->fs;
+        while (child != NULL) {
+            int childDepth = depthNB(child);
+            if (childDepth > maxChildDepth) {
+                maxChildDepth = childDepth;
+            }
+            child = child->nb;
+        }
+        return (maxChildDepth + 1);
+    }
+}
+
 int findLevel(BTree node, char data, int level) {
     if (node == NULL) {
         return 0;
@@ -1029,13 +1051,133 @@ int findLevel(BTree node, char data, int level) {
     return downLevel;
 }
 
-void print_tree(BTree tree, int level) {
-    if (tree != NULL) {
-        print_tree(tree->right, level+1);
-        for (int i = 0; i < level; i++) {
-            printf("   ");
-        }
-        printf("-> %c\n", tree->info);
-        print_tree(tree->left, level+1);
+int findLevelNB(NBTree node, char data, int level) {
+    if (node == NULL){
+        return 0;
+    }
+    if (node->info == data){
+        return level;
+    }
+    int downLevel = 0;
+    NBTree child = node->fs;
+    while (child != NULL && downLevel == 0) {
+        downLevel = findLevelNB(child, data, level + 1);
+        child = child->nb;
+    }
+    return downLevel;
+}
+
+void printDepth(NBTree nb, BTree b, BTree avl, char nama){
+    int kedalaman = depthNB(nb);
+    printf("\nKedalaman Non Binary Tree %d\n", kedalaman);
+    ConvertNBtree(nb, &b, &avl);
+    kedalaman = depth(b);
+	printf("Kedalaman Binary Tree %d\n", kedalaman);
+    kedalaman = depth(avl);
+	printf("Kedalaman AVL Tree %d\n", kedalaman);
+    printf("\n");
+}
+
+void printLevel(NBTree nb, BTree b, BTree avl, char nama){
+    int level = findLevelNB(nb, nama, 1);
+    printf("Level Dari Node %c Non Binary Tree Adalah %d\n", nama, level);
+    ConvertNBtree(nb, &b, &avl);
+    level = findLevel(b, nama, 1);
+    printf("Level Dari Node %c Binary Tree Adalah %d\n", nama, level);
+    level = findLevel(avl, nama, 1);
+    printf("Level Dari Node %c AVL Tree Adalah %d\n", nama, level);
+}
+
+void searchNode(NBTree nb, BTree b, BTree avl){
+    printf("Masukkan Node Yang Ingin Anda Cari: ");
+    char nama;
+    scanf(" %c", &nama);
+    Baddr P;
+    NBaddr Q;
+    P = SearchBnode(b, nama);
+    Q = SearchNBnode(nb, nama);
+    if ((P == NULL) && (Q == NULL))
+    {
+        printf("Node Tidak Ditemukan!\n");
+    }
+    else
+    {
+        printDepth(nb, b, avl, nama);
+        printLevel(nb, b, avl, nama);
     }
 }
+
+void saveTree(NBTree nb){
+    char filename[20];
+
+    if (nb == NULL)
+    {
+        printf("Tree Masih Kosong!\n");
+        system("pause");
+        system("cls");
+    }
+    else
+    {
+        printf("Silahkan Masukkan Nama File (.txt): ");
+        scanf(" %s", &filename);
+        saveNBTreeToFile(nb, filename);
+    }
+}
+ 
+void printSpace(double n, BTree removed)
+{
+    for (; n > 0; n--) {
+        cout << "   ";
+    }
+    if (removed == nullptr) {
+        cout << " ";
+    }
+    else {
+        cout << removed->info;
+    }
+}
+ 
+int heightOfTree(BTree root)
+{
+    if (root == nullptr) {
+        return 0;
+    }
+    return 1 + max(heightOfTree(root->left), heightOfTree(root->right));
+}
+ 
+void printAVLTree(BTree root)
+{
+    queue<BTree> treeLevel, temp;
+    treeLevel.push(root);
+    int counter = 0;
+    int height = heightOfTree(root) - 1;
+    double numberOfElements = pow(1.5, (height));
+    while (counter <= height) {
+        BTree removed = treeLevel.front();
+        treeLevel.pop();
+        if (temp.empty()) {
+            printSpace(numberOfElements / pow(1.5, counter - 2), removed);
+        }
+        else {
+            printSpace(numberOfElements / pow(1.5, counter), removed);
+        }
+        if (removed == nullptr) {
+            temp.push(nullptr);
+            temp.push(nullptr);
+        }
+        else {
+            temp.push(removed->left);
+            temp.push(removed->right);
+        }
+        if (treeLevel.empty()) {
+            cout << endl << endl;
+            treeLevel = temp;
+            while (!temp.empty()) {
+                temp.pop();
+            }
+            counter++;
+        }
+    }
+}
+
+

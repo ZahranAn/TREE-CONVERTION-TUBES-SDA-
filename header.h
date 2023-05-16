@@ -13,6 +13,7 @@ Kelas/Prodi : 1B/D4 Teknik Informatika
 #include <stdlib.h>
 #include <string.h>
 
+
 typedef char infotype;
 
 typedef struct NBnode* NBaddr;
@@ -230,6 +231,8 @@ void DeleteNBtree(NBTree* NBroot);
 void DeleteBtree(BTree* Broot);
 
 int depth(BTree node);
+
+int depthNB(NBTree node);
 
 int findLevel(BTree node, char data, int level);
 
