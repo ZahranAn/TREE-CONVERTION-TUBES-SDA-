@@ -164,15 +164,12 @@ int main()
 			system("cls");
 			break;
 		case 7:
-<<<<<<< Updated upstream
-=======
 			// search node
 			searchNode(nb, b, avl);
 			system("pause");
 			system("cls");
 			break;
 		case 8:
->>>>>>> Stashed changes
 			// exit
 			printf("Terima kasih telah menggunakan program kami!");
 			exit(0);
