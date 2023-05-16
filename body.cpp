@@ -262,12 +262,14 @@ void InsertAVLnode(BTree *Broot, infotype info)
     if (balance > 1 && info < (*Broot)->left->info)
     {
         *Broot = RightRotation(*Broot);
+        printf("\nRotasi Kiri\n");
         return;
     }
     // Right Right Case
     if (balance < -1 && info > (*Broot)->right->info)
     {
         *Broot = LeftRotation(*Broot);
+        printf("\nRotasi Kanan\n");
         return;
     }
     // Left Right Case
@@ -275,6 +277,7 @@ void InsertAVLnode(BTree *Broot, infotype info)
     {
         (*Broot)->left = LeftRotation((*Broot)->left);
         *Broot = RightRotation(*Broot);
+        printf("\nRotasi Kiri Lalu Kanan\n");
         return;
     }
     // Right Left Case
@@ -282,6 +285,7 @@ void InsertAVLnode(BTree *Broot, infotype info)
     {
         (*Broot)->right = RightRotation((*Broot)->right);
         *Broot = LeftRotation(*Broot);
+        printf("\nRotasi Kanan Lalu Kiri\n");
         return;
     }
 }
