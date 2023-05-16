@@ -16,24 +16,7 @@ int main()
 	NBTree nb = NULL;
 	BTree b = NULL;
 	BTree avl = NULL;
-<<<<<<< Updated upstream
-	char filename[20]; //= "FileTree.txt";
-
-	/* INISIALISASI NON-BINARY TREE */
-	// InsertNBnode(&nb, SearchNBnode(nb,'0'),'A');
-	// InsertNBnode(&nb, SearchNBnode(nb,'A'),'B');
-	// InsertNBnode(&nb, SearchNBnode(nb,'A'),'C');
-	// InsertNBnode(&nb, SearchNBnode(nb,'A'),'D');
-	// InsertNBnode(&nb, SearchNBnode(nb,'B'),'E');
-	// InsertNBnode(&nb, SearchNBnode(nb,'C'),'F');
-	// InsertNBnode(&nb, SearchNBnode(nb,'C'),'G');
-	// InsertNBnode(&nb, SearchNBnode(nb,'C'),'H');
-	// InsertNBnode(&nb, SearchNBnode(nb,'D'),'I');
-	// InsertNBnode(&nb, SearchNBnode(nb,'D'),'J');
-	// InsertNBnode(&nb, SearchNBnode(nb,'J'),'K');
-=======
 	char filename[20];
->>>>>>> Stashed changes
 
 	/* KONVERSI NON-BINARY TREE */
 	for (;;)
