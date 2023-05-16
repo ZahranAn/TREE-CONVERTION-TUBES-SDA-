@@ -1040,6 +1040,8 @@ void print_tree(BTree tree, int level) {
     }
 <<<<<<< Updated upstream
 }
+=======
+}
 
 void print_tree(BTree tree, int level) {
     if (tree != NULL) {
