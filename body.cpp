@@ -121,19 +121,38 @@ void ConvertNBtree(NBTree NBroot, BTree *Broot, BTree *AVLroot)
     NBaddr Pcur;
     DeleteBtree(&(*Broot));
     DeleteBtree(&(*AVLroot));
+    int step = 1;
     bool arah = false;
     if (NBroot != NULL)
     {
         Pcur = NBroot;
+        printf("\n=========================================================================================================\n");
+        printf("Step %d\n", step);
+        step++;
         InsertBnode(&(*Broot), Pcur);
+        printf("\nBinary Tree:\n");
+        print_tree(*Broot, 0);
         InsertAVLnode(&(*AVLroot), Pcur->info);
+        printf("\nAVL Tree:\n");
+        print_tree(*AVLroot, 0);
+        printf("\n=========================================================================================================\n");
+        system("pause");
         do
         {
             if ((Pcur->fs != NULL) && (arah == false))
             {
                 Pcur = Pcur->fs;
+                printf("\n=========================================================================================================\n");
+                printf("Step %d\n", step);
+                step++;
                 InsertBnode(&(*Broot), Pcur);
+                printf("\nBinary Tree:\n");
+                print_tree(*Broot, 0);
                 InsertAVLnode(&(*AVLroot), Pcur->info);
+                printf("\nAVL Tree:\n");
+                print_tree(*AVLroot, 0);
+                printf("\n=========================================================================================================\n");
+                system("pause");
             }
             else
             {
@@ -141,8 +160,17 @@ void ConvertNBtree(NBTree NBroot, BTree *Broot, BTree *AVLroot)
                 {
                     arah = false;
                     Pcur = Pcur->nb;
+                    printf("\n=========================================================================================================\n");
+                    printf("Step %d\n", step);
+                    step++;
                     InsertBnode(&(*Broot), Pcur);
+                    printf("\nBinary Tree:\n");
+                    print_tree(*Broot, 0);
                     InsertAVLnode(&(*AVLroot), Pcur->info);
+                    printf("\nAVL Tree:\n");
+                    print_tree(*AVLroot, 0);
+                    printf("\n=========================================================================================================\n");
+                    system("pause");
                 }
                 else
                 {
@@ -553,9 +581,9 @@ void ViewTraversal(NBTree NBroot, BTree Broot, BTree AVLroot)
     else
     {
         ViewTraversalNB(NBroot);
-        printf("\tBinary Tree\n");
+        printf("\n\tBinary Tree\n");
         ViewTraversalB(Broot);
-        printf("\tAVL Tree\n");
+        printf("\n\tAVL Tree\n");
         ViewTraversalB(AVLroot);
     }
 }
