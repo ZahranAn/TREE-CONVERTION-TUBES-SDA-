@@ -13,6 +13,7 @@ Kelas/Prodi : 1B/D4 Teknik Informatika
 #include <stdlib.h>
 #include <string.h>
 
+
 typedef char infotype;
 
 typedef struct NBnode* NBaddr;
@@ -231,8 +232,23 @@ void DeleteBtree(BTree* Broot);
 
 int depth(BTree node);
 
+int depthNB(NBTree node);
+
 int findLevel(BTree node, char data, int level);
 
-void print_tree(BTree tree, int level);
+int findLevelNB(NBTree node, char data, int level);
+
+void printDepth(NBTree nb, BTree b, BTree avl, char nama);
+
+void printLevel(NBTree nb, BTree b, BTree avl, char nama);
+
+void searchNode(NBTree nb, BTree b, BTree avl);
+
+void saveTree(NBTree nb);
+
+void printAVLTree(BTree root);
+
+void printBinaryTree(BTree root);
+
 
 #endif
