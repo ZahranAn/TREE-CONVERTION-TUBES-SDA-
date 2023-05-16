@@ -250,5 +250,6 @@ void printAVLTree(BTree root);
 
 void printBinaryTree(BTree root);
 
+void print_tree(BTree tree, int level);
 
 #endif

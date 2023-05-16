@@ -859,7 +859,7 @@ awal:
 
     nilai = atoi(input);
 
-    if (nilai < 1 || nilai > 7)
+    if (nilai < 1 || nilai > 8)
     {
         printf("Masukkan angka dari 1-7 !\n");
         system("pause");

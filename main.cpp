@@ -16,7 +16,8 @@ int main()
 	NBTree nb = NULL;
 	BTree b = NULL;
 	BTree avl = NULL;
-	char filename[20]; 
+
+	char filename[20];
 
 	/* KONVERSI NON-BINARY TREE */
 	for (;;)
@@ -86,6 +87,7 @@ int main()
 			break;
 		case 5:
 			// convert & print
+			ViewTraversalNB(nb);
 			ConvertNBtree(nb, &b, &avl);
 			ViewTraversal(nb, b, avl);
 			printf("\n\nAVL TREE\n");
@@ -104,7 +106,7 @@ int main()
 			searchNode(nb, b, avl);
 			system("pause");
 			system("cls");
-			break;	
+			break;
 		case 8:
 			// exit
 			printf("Terima kasih telah menggunakan program kami!");
