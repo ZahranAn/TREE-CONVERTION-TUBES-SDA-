@@ -16,6 +16,7 @@ int main()
 	NBTree nb = NULL;
 	BTree b = NULL;
 	BTree avl = NULL;
+<<<<<<< Updated upstream
 	char filename[20]; //= "FileTree.txt";
 
 	/* INISIALISASI NON-BINARY TREE */
@@ -30,6 +31,9 @@ int main()
 	// InsertNBnode(&nb, SearchNBnode(nb,'D'),'I');
 	// InsertNBnode(&nb, SearchNBnode(nb,'D'),'J');
 	// InsertNBnode(&nb, SearchNBnode(nb,'J'),'K');
+=======
+	char filename[20];
+>>>>>>> Stashed changes
 
 	/* KONVERSI NON-BINARY TREE */
 	for (;;)
@@ -99,6 +103,7 @@ int main()
 			break;
 		case 5:
 			// convert & print
+			ViewTraversalNB(nb);
 			ConvertNBtree(nb, &b, &avl);
 			c:
 			printf("Apakah Anda Ingin Mencari Node (Level/Depth Nya Juga)?(Y/N)\n");
@@ -159,6 +164,12 @@ int main()
 			system("cls");
 			break;
 		case 7:
+			// search node
+			searchNode(nb, b, avl);
+			system("pause");
+			system("cls");
+			break;
+		case 8:
 			// exit
 			printf("Terima kasih telah menggunakan program kami!");
 			exit(0);

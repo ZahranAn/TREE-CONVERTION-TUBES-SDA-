@@ -233,6 +233,20 @@ int depth(BTree node);
 
 int findLevel(BTree node, char data, int level);
 
+int findLevelNB(NBTree node, char data, int level);
+
+void printDepth(NBTree nb, BTree b, BTree avl, char nama);
+
+void printLevel(NBTree nb, BTree b, BTree avl, char nama);
+
+void searchNode(NBTree nb, BTree b, BTree avl);
+
+void saveTree(NBTree nb);
+
+void printAVLTree(BTree root);
+
+void printBinaryTree(BTree root);
+
 void print_tree(BTree tree, int level);
 
 #endif
