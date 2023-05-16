@@ -233,8 +233,6 @@ int depth(BTree node);
 
 int findLevel(BTree node, char data, int level);
 
-<<<<<<< Updated upstream
-=======
 int findLevelNB(NBTree node, char data, int level);
 
 void printDepth(NBTree nb, BTree b, BTree avl, char nama);
@@ -249,7 +247,6 @@ void printAVLTree(BTree root);
 
 void printBinaryTree(BTree root);
 
->>>>>>> Stashed changes
 void print_tree(BTree tree, int level);
 
 #endif
