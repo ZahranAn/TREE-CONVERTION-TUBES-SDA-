@@ -1039,6 +1039,7 @@ void print_tree(BTree tree, int level) {
         print_tree(tree->left, level+1);
     }
 <<<<<<< Updated upstream
+}
 
 void print_tree(BTree tree, int level) {
     if (tree != NULL) {
