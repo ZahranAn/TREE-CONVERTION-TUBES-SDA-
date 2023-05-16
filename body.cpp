@@ -1038,19 +1038,4 @@ void print_tree(BTree tree, int level) {
         printf("-> %c\n", tree->info);
         print_tree(tree->left, level+1);
     }
-<<<<<<< Updated upstream
 }
-=======
-}
-
-void print_tree(BTree tree, int level) {
-    if (tree != NULL) {
-        print_tree(tree->right, level+1);
-        for (int i = 0; i < level; i++) {
-            printf("   ");
-        }
-        printf("-> %c\n", tree->info);
-        print_tree(tree->left, level+1);
-    }
-}
->>>>>>> Stashed changes
